@@ -45,12 +45,12 @@ export default function index() {
         },
     ];
 
-    
+
     return (
         <Layout>
             <div className='grid grid-cols-2 gap-3 p-5'>
                 {tempData.map((value, index) => (
-                    <MangaCard value={value} />
+                    <MangaCard value={value} key={index}/>
                 ))}
             </div>
         </Layout>
