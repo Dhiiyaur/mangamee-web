@@ -21,7 +21,7 @@ export default function id() {
 
             <div className='flex flex-col space-y-3 p-8'>
                 {data.chapter.map((value, index) => (
-                    <div className='rounded-lg bg-gray-700 p-3 text-white flex justify-start'>
+                    <div className='rounded-lg bg-gray-700 p-3 text-white flex justify-start' key={index}>
                         Chapter {value.name}
                     </div>
                 ))}
