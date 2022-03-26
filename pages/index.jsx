@@ -22,7 +22,7 @@ export default function Home() {
 
     return (
         <Layout>
-            <div className='grid grid-cols-2 gap-3 p-5'>
+            <div className='grid grid-cols-2 gap-5 p-5'>
                 {mangaReadData?.map((value, index) => (
                     <MangaCard value={value} key={index}/>
                 ))}
