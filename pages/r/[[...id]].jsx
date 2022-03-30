@@ -23,6 +23,7 @@ export default function MangaRead() {
             <div>
                 {data?.Images?.map((value, index) => (
                     <img
+                        key={index}
                         src={value.Image}
                         alt=''
                     />
