@@ -1,32 +1,47 @@
 import MangaCard from '@/components/card/MangaCard';
 import Layout from '@/components/layout/Layout';
-import { useEffect, useState} from 'react'
-import axios from 'axios';
-
+import { useEffect, useState } from 'react'
+import MangaCardSkeleton from '@/components/loading/MangaCardSkeleton';
+import { SERVER_BASE_URL_MANGA, fetcher } from '@/lib/api'
 
 export default function Home() {
 
-    const [mangaReadData, setMangaReadData] = useState([])
+    const [page, setPage] = useState(1)
+    const [mangaData, setMangaData] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-
-        const fetchData = async() => {
-            let {data:res} = await axios.get('https://go-mangamee-2.herokuapp.com/browse?pageNumber=1')
-            console.log(res)
-            setMangaReadData(res.MangaData)
+        const initPage = async() => {
+            let res = await fetcher(`${SERVER_BASE_URL_MANGA}/index/1/${page}`)
+            if (page == 1) {
+                setMangaData(res)
+            } else {
+                setMangaData(prev => [...prev, ...res])
+            }
+            setLoading(false)
         }
 
-        fetchData()
-    }, [])
+        initPage()
+    },[page])
 
+    if (loading) return (
+        <Layout>
+            <MangaCardSkeleton />
+        </Layout>
+    )
 
     return (
         <Layout>
             <div className='grid grid-cols-2 gap-5 p-5'>
-                {mangaReadData?.map((value, index) => (
-                    <MangaCard value={value} key={index}/>
+                {mangaData?.map((value, index) => (
+                    <MangaCard value={value} key={index} />
                 ))}
             </div>
+            <div className='flex justify-center cursor-pointer items-center py-3 hover:bg-[#1a1a1a]' onClick={() => setPage(page + 1)}>
+                <span className='text-white text-sm'>
+                    I want more
+                </span>
+            </div>
         </Layout>
-    );
+    )
 }

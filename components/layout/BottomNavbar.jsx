@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function BottomNavbar() {
     return (
         <div className='sticky bottom-0 p-2.5 bg-[#121212] opacity-70'>

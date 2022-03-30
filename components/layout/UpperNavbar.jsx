@@ -18,7 +18,7 @@ export default function UpperNavbar() {
             }
         }
         getRoute()
-    }, [])
+    }, [router])
 
     return (
         <>
@@ -76,7 +76,7 @@ export default function UpperNavbar() {
                                     className='px-7 w-full'
                                     onClick={() => router.push('/')}
                                 >
-                                    <h3 className='text-white text-lg border-b-2 py-3 border-[#2e2e2e]'>
+                                    <h3 className={`${(currentRoute == 'home') ? "text-green-300 font-semibold" : "text-white opacity-70"} cursor-pointer text-lg border-b-2 py-3 border-[#2e2e2e]`}>
                                         Home
                                     </h3>
                                 </div>
@@ -84,16 +84,31 @@ export default function UpperNavbar() {
                             <span className='flex'>
                                 <span
                                     className={`${
-                                        currentRoute == 'browse' &&
+                                        currentRoute == 'search' &&
                                         'bg-green-300'
                                     } w-[1.5%]`}
                                 />
                                 <div
                                     className='px-7 w-full'
-                                    onClick={() => router.push('/browse')}
+                                    onClick={() => router.push('/search')}
                                 >
-                                    <h3 className='text-white text-lg border-b-2 py-3 border-[#2e2e2e]'>
-                                        Browse
+                                    <h3 className={`${(currentRoute == 'search') ? "text-green-300 font-semibold" : "text-white opacity-70"} cursor-pointer text-lg border-b-2 py-3 border-[#2e2e2e]`}>
+                                        Search
+                                    </h3>
+                                </div>
+                            </span>
+                            <span className='flex'>
+                                <span
+                                    className={`${
+                                        (currentRoute == 'm' || currentRoute == 'r' || currentRoute == '404')  &&
+                                        'bg-green-300'
+                                    } w-[1.5%]`}
+                                />
+                                <div
+                                    className='px-7 w-full'
+                                >
+                                    <h3 className={`${(currentRoute == 'm' || currentRoute == 'r') ? "text-green-300 font-semibold" : "text-white opacity-70"} text-lg border-b-2 py-3 border-[#2e2e2e]`}>
+                                        Read
                                     </h3>
                                 </div>
                             </span>
