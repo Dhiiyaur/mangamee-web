@@ -23,8 +23,8 @@ export default function MangaPage() {
         <Layout>
             <div className='bg-gray-500 w-full h-[500px]'>
                 <img
-                    src={data.Cover}
-                    // src={data.Cover123}
+                    // src={data.Cover}
+                    src={data.Cover123}
                     alt=''
                     className='w-full h-[500px] object-cover'
                 />
