@@ -4,14 +4,17 @@ import { useRouter } from 'next/router'
 import MangaReadSkeleton from '@/components/loading/MangaReadSkeleton'
 import useSWR from 'swr'
 import { fetcher, SERVER_BASE_URL_MANGA } from '@/lib/api'
+import { useState } from 'react'
 
 
 export default function MangaRead() {
 
+    const [chapterMenu, setChapterMenu] = useState(false)
+
     const router = useRouter()
     const { id } = router.query
     const { data, error } = useSWR(id ? `${SERVER_BASE_URL_MANGA}/read/1/${id[0]}/${id[1]}` : null, fetcher)
-    const { data:dataChapter, error:errorChapter } = useSWR(id ? `${SERVER_BASE_URL_MANGA}/read-chapter/1/${id[0]}` : null, fetcher)
+    const { data: dataChapter, error: errorChapter } = useSWR(id ? `${SERVER_BASE_URL_MANGA}/read-chapter/1/${id[0]}` : null, fetcher)
 
     if (error && errorChapter) router.push('/404')
     if (!data && !dataChapter) return (
@@ -32,7 +35,7 @@ export default function MangaRead() {
                     />
                 ))}
             </div>
-            <BottomNavbar dataChapter={dataChapter} currentChapter={id[1]} mangaID={id[0]}/>
+            <BottomNavbar dataChapter={dataChapter} currentChapter={id[1]} setChapterMenu={setChapterMenu} />
         </Layout>
     )
 }

@@ -1,6 +1,6 @@
 export default function MangaReadSkeleton() {
     return (
-        <div className="flex flex-col space-y-4 justify-center items-center">
+        <div className="flex flex-col space-y-4 justify-center items-center pt-10">
             {Array(6).fill().map((_, index) => (
 
                 <div className='bg-gray-700 h-[450px] animate-pulse text-white flex justify-center items-center w-[80%] rounded-md' key={index}>

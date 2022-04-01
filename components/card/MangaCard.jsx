@@ -10,8 +10,8 @@ export default function MangaCard({ value }) {
         >
             <div>
                 <img
-                    // src={value.Cover}
-                    src={value.Covader}
+                    src={value.Cover}
+                    // src={value.Covader}
                     alt=''
                     className='w-full h-60 object-cover'
                 />
