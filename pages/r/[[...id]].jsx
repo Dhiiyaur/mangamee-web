@@ -11,8 +11,10 @@ export default function MangaRead() {
     const router = useRouter()
     const { id } = router.query
     const { data, error } = useSWR(id ? `${SERVER_BASE_URL_MANGA}/read/1/${id[0]}/${id[1]}` : null, fetcher)
-    if (error) router.push('/404')
-    if (!data) return (
+    const { data:dataChapter, error:errorChapter } = useSWR(id ? `${SERVER_BASE_URL_MANGA}/read-chapter/1/${id[0]}` : null, fetcher)
+
+    if (error && errorChapter) router.push('/404')
+    if (!data && !dataChapter) return (
         <Layout>
             <MangaReadSkeleton />
         </Layout>
@@ -25,11 +27,12 @@ export default function MangaRead() {
                     <img
                         key={index}
                         src={value.Image}
+                        // src={value.Cover}
                         alt=''
                     />
                 ))}
             </div>
-            <BottomNavbar />
+            <BottomNavbar dataChapter={dataChapter} currentChapter={id[1]} mangaID={id[0]}/>
         </Layout>
     )
 }

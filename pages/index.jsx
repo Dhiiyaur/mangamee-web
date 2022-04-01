@@ -39,7 +39,7 @@ export default function Home() {
             </div>
             <div className='flex justify-center cursor-pointer items-center py-3 hover:bg-[#1a1a1a]' onClick={() => setPage(page + 1)}>
                 <span className='text-white text-sm'>
-                    I want more
+                    More
                 </span>
             </div>
         </Layout>
