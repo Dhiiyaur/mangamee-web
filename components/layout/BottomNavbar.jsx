@@ -1,9 +1,12 @@
 import { FindChapter } from "@/lib/helper"
 import { useEffect, useState } from "react"
+import ChapterSelect from "@/components/layout/ChapterSelect"
 
-export default function BottomNavbar({ dataChapter, currentChapter, setChapterMenu  }) {
+
+export default function BottomNavbar({ dataChapter, currentChapter, mangaId }) {
 
     const [chapterName, setChapterName] = useState()
+    const [openChapters, setOpenChapters] = useState(false)
 
     useEffect(() => {
         if (dataChapter && currentChapter) {
@@ -13,6 +16,7 @@ export default function BottomNavbar({ dataChapter, currentChapter, setChapterMe
     }, [dataChapter, currentChapter])
 
     return (
+        <div>
             <div className='fixed inset-x-0 bottom-0 p-2 bg-[#121212] opacity-70'>
                 <div className='flex justify-center'>
                     <div className='flex justify-between w-[80%] items-center'>
@@ -21,7 +25,7 @@ export default function BottomNavbar({ dataChapter, currentChapter, setChapterMe
                                 <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
                             </svg>
                         </span>
-                        <span className="text-white text-sm font-semibold cursor-pointer" onClick={() => setChapterMenu(true)}>
+                        <span className="text-white text-sm font-semibold cursor-pointer" onClick={() => setOpenChapters(true)}>
                             {chapterName}
                         </span>
                         <span className='text-white'>
@@ -32,6 +36,8 @@ export default function BottomNavbar({ dataChapter, currentChapter, setChapterMe
                     </div>
                 </div>
             </div>
+            {openChapters && <ChapterSelect chapters={dataChapter.Chapters} setOpenChapters={setOpenChapters} chapterName={chapterName} mangaId={mangaId}/>}
+        </div>
 
     )
 }

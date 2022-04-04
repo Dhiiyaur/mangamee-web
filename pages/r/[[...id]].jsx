@@ -9,8 +9,6 @@ import { useState } from 'react'
 
 export default function MangaRead() {
 
-    const [chapterMenu, setChapterMenu] = useState(false)
-
     const router = useRouter()
     const { id } = router.query
     const { data, error } = useSWR(id ? `${SERVER_BASE_URL_MANGA}/read/1/${id[0]}/${id[1]}` : null, fetcher)
@@ -35,7 +33,7 @@ export default function MangaRead() {
                     />
                 ))}
             </div>
-            <BottomNavbar dataChapter={dataChapter} currentChapter={id[1]} setChapterMenu={setChapterMenu} />
+            <BottomNavbar dataChapter={dataChapter} currentChapter={id[1]} mangaId={id[0]}/>
         </Layout>
     )
 }
