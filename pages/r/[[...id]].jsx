@@ -4,7 +4,6 @@ import { useRouter } from 'next/router'
 import MangaReadSkeleton from '@/components/loading/MangaReadSkeleton'
 import useSWR from 'swr'
 import { fetcher, SERVER_BASE_URL_MANGA } from '@/lib/api'
-import { useState } from 'react'
 
 
 export default function MangaRead() {
