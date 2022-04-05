@@ -36,7 +36,7 @@ export default function BottomNavbar({ dataChapter, currentChapter, mangaId }) {
                     </div>
                 </div>
             </div>
-            {openChapters && <ChapterSelect chapters={dataChapter.Chapters} setOpenChapters={setOpenChapters} chapterName={chapterName} mangaId={mangaId}/>}
+            {openChapters && <ChapterSelect chapters={dataChapter.Chapters} openChapters={openChapters} setOpenChapters={setOpenChapters} chapterName={chapterName} mangaId={mangaId}/>}
         </div>
 
     )
