@@ -10,7 +10,7 @@ export default function MangaPage() {
     const router = useRouter()
     const [searchFilter, setSearchFilter] = useState('')
     const { id } = router.query
-    const { data, error } = useSWR(id ? `${SERVER_BASE_URL_MANGA}/detail/1/${id}` : null, fetcher)
+    const { data, error } = useSWR(id ? `${SERVER_BASE_URL_MANGA}/detail/${id[0]}/${id[1]}` : null, fetcher)
 
     if (error) router.push('/404')
     if (!data) return (
@@ -53,7 +53,7 @@ export default function MangaPage() {
                         }
                     })
                     ?.map((value, index) => (
-                        <div className='rounded-lg bg-gray-700 p-4 text-white flex justify-start cursor-pointer' key={index} onClick={() => router.push(`/r/${id}/${value.Id}`)}>
+                        <div className='rounded-lg bg-gray-700 p-4 text-white flex justify-start cursor-pointer' key={index} onClick={() => router.push(`/r/${id[0]}/${id[1]}/${value.Id}`)}>
                             {value.Name}
                         </div>
                     ))}

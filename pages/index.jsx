@@ -7,12 +7,13 @@ import { SERVER_BASE_URL_MANGA, fetcher } from '@/lib/api'
 export default function Home() {
 
     const [page, setPage] = useState(1)
+    const [source, setSource] = useState(1)
     const [mangaData, setMangaData] = useState([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const initPage = async() => {
-            let res = await fetcher(`${SERVER_BASE_URL_MANGA}/index/1/${page}`)
+            let res = await fetcher(`${SERVER_BASE_URL_MANGA}/index/${source}/${page}`)
             if (page == 1) {
                 setMangaData(res)
             } else {
@@ -22,7 +23,7 @@ export default function Home() {
         }
 
         initPage()
-    },[page])
+    },[page, source])
 
     if (loading) return (
         <Layout>
@@ -32,9 +33,13 @@ export default function Home() {
 
     return (
         <Layout>
-            <div className='grid grid-cols-2 gap-8 p-8'>
+            <div className='flex px-8 py-5 space-x-3'>
+                <button className='text-sm text-white p-2 border rounded-lg' onClick={() => setSource(1)}> Mangaread</button>
+                <button className='text-sm text-white p-2 border rounded-lg' onClick={() => setSource(2)}> Mangatown</button>
+            </div>
+            <div className='grid grid-cols-2 gap-6 px-8 py-4'>
                 {mangaData?.map((value, index) => (
-                    <MangaCard value={value} key={index} />
+                    <MangaCard value={value} source={source} key={index} />
                 ))}
             </div>
             <div className='flex justify-center cursor-pointer items-center py-3 hover:bg-[#1a1a1a]' onClick={() => setPage(page + 1)}>

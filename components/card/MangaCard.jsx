@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router';
 
-export default function MangaCard({ value }) {
+export default function MangaCard({ value, source }) {
     let router = useRouter();
 
     return (
         <div
             className='w-full h-60 bg-gray-500 rounded-md overflow-hidden cursor-pointer'
-            onClick={() => router.push(`/m/${value.Id}`)}
+            onClick={() => router.push(`/m/${source}/${value.Id}`)}
         >
             <div>
                 <img
