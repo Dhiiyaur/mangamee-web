@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useRef, useEffect, useState } from 'react';
 
 
-export default function ChapterSelect({ chapters, openChapters, setOpenChapters, chapterName, mangaId }) {
+export default function ChapterSelect({ chapters, openChapters, setOpenChapters, chapterName, mangaId, sourceId }) {
 
     let router = useRouter()
     const [searchFilter, setSearchFilter] = useState('')
@@ -37,7 +37,7 @@ export default function ChapterSelect({ chapters, openChapters, setOpenChapters,
 
                 {/* scroll nih */}
 
-                <div className="overflow-y-scroll absolute h-full w-full mt-4">
+                <div className="overflow-y-scroll absolute h-full w-full mt-4 pb-28">
                     {chapters.filter((item) => {
                         if (item.Name
                             .toLowerCase()
@@ -48,7 +48,7 @@ export default function ChapterSelect({ chapters, openChapters, setOpenChapters,
                     })
                         ?.map((value, index) => (
                             <div key={index} className="flex cursor-pointer" onClick={() => {
-                                router.push(`/r/${mangaId}/${value.Id}`)
+                                router.push(`/r/${sourceId}/${mangaId}/${value.Id}`)
                                 setOpenChapters(false)
                             }}>
                                 <span className={`${chapterName == value.Name && "bg-green-500"} w-[1.5%]`} />
@@ -58,7 +58,7 @@ export default function ChapterSelect({ chapters, openChapters, setOpenChapters,
                             </div>
                         ))
                     }
-                    <span className="p-24" />
+                    {/* <span className="p-10" /> */}
                 </div>
             </div>
         </div>

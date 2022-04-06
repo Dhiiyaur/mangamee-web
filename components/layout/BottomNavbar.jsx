@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import ChapterSelect from "@/components/layout/ChapterSelect"
 
 
-export default function BottomNavbar({ dataChapter, currentChapter, mangaId }) {
+export default function BottomNavbar({ dataChapter, currentChapter, mangaId, sourceId }) {
 
     const [chapterName, setChapterName] = useState()
     const [openChapters, setOpenChapters] = useState(false)
@@ -36,7 +36,7 @@ export default function BottomNavbar({ dataChapter, currentChapter, mangaId }) {
                     </div>
                 </div>
             </div>
-            {openChapters && <ChapterSelect chapters={dataChapter.Chapters} openChapters={openChapters} setOpenChapters={setOpenChapters} chapterName={chapterName} mangaId={mangaId}/>}
+            {openChapters && <ChapterSelect chapters={dataChapter.Chapters} openChapters={openChapters} setOpenChapters={setOpenChapters} chapterName={chapterName} mangaId={mangaId} sourceId={sourceId}/>}
         </div>
 
     )
