@@ -3,7 +3,7 @@ import Layout from '@/components/layout/Layout';
 import { useEffect, useState } from 'react'
 import MangaCardSkeleton from '@/components/loading/MangaCardSkeleton';
 import { SERVER_BASE_URL_MANGA, fetcher } from '@/lib/api'
-import SourceCard from '@/components/card/sourceCard';
+import SourceCard from '@/components/card/SourceCard';
 import { MangaSource } from '@/lib/helper';
 
 export default function Home() {
