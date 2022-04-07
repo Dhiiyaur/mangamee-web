@@ -3,6 +3,8 @@ import Layout from '@/components/layout/Layout';
 import { useEffect, useState } from 'react'
 import MangaCardSkeleton from '@/components/loading/MangaCardSkeleton';
 import { SERVER_BASE_URL_MANGA, fetcher } from '@/lib/api'
+import SourceCard from '@/components/card/sourceCard';
+import { MangaSource } from '@/lib/helper';
 
 export default function Home() {
 
@@ -33,11 +35,13 @@ export default function Home() {
 
     return (
         <Layout>
-            <div className='flex px-8 py-5 space-x-3'>
-                <button className='text-sm text-white p-2 border rounded-lg' onClick={() => setSource(1)}> Mangaread</button>
-                <button className='text-sm text-white p-2 border rounded-lg' onClick={() => setSource(2)}> Mangatown</button>
+            <div className='flex px-5 py-5 space-x-3'>
+                {MangaSource.map((value, index) => (
+                    <SourceCard key={index} name={value.name} source={source} setSource={setSource} sourceId={value.id}/>
+                ))}
+
             </div>
-            <div className='grid grid-cols-2 gap-6 px-8 py-4'>
+            <div className='grid grid-cols-2 gap-4 px-5 py-2'>
                 {mangaData?.map((value, index) => (
                     <MangaCard value={value} source={source} key={index} />
                 ))}
