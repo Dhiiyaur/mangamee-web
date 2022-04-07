@@ -31,13 +31,13 @@ export default function SearchPage() {
         <Layout>
             <div>
                 <div className='px-5 pt-10 flex justify-between space-x-5'>
-                    <div className='flex bg-[#2b2b2b] px-4 rounded-xl'>
+                    <div className='flex bg-[#2b2b2b] px-5 rounded-xl w-full'>
                         <span className='text-white items-center flex'>
                             <IconContext.Provider value={{ size: 20 }}>
                                 <FiSearch />
                             </IconContext.Provider>
                         </span>
-                        <input className='outline-none bg-[#2b2b2b] p-2.5 px-5 text-white text-sm' placeholder='Search' onChange={(e) => setSearchManga(e.target.value)} onKeyDown={(e) => handleKeyDown(e)} />
+                        <input className='outline-none bg-[#2b2b2b] p-2.5 pl-5  text-white text-sm' placeholder='Search' onChange={(e) => setSearchManga(e.target.value)} onKeyDown={(e) => handleKeyDown(e)} />
                     </div>
                     <button className='text-[#2b2b2b] p-2.5 rounded-xl bg-gray-50 opacity-80'>
                         <IconContext.Provider value={{ size: 25 }}>
