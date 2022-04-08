@@ -5,9 +5,12 @@ import { fetcherSearchManga, SERVER_BASE_URL_MANGA } from '@/lib/api';
 import MangaCardSkeleton from '@/components/loading/MangaCardSkeleton';
 import { FiSliders, FiSearch } from "react-icons/fi";
 import { IconContext } from "react-icons";
+import SourceSelect from '@/components/modal/SourceSelect';
+
 
 export default function SearchPage() {
 
+    const [menuOpen, setMenuOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     const [source, setSource] = useState(1)
     const [searchManga, setSearchManga] = useState()
@@ -30,8 +33,8 @@ export default function SearchPage() {
     return (
         <Layout>
             <div>
-                <div className='px-5 pt-10 flex justify-between space-x-5'>
-                    <div className='flex bg-[#2b2b2b] px-5 rounded-xl w-full'>
+                <div className='px-5 pt-10 flex justify-between space-x-3'>
+                    <div className='flex bg-[#2b2b2b] px-5 rounded-lg w-full'>
                         <span className='text-white items-center flex'>
                             <IconContext.Provider value={{ size: 20 }}>
                                 <FiSearch />
@@ -39,8 +42,8 @@ export default function SearchPage() {
                         </span>
                         <input className='outline-none bg-[#2b2b2b] p-2.5 pl-5  text-white text-sm' placeholder='Search' onChange={(e) => setSearchManga(e.target.value)} onKeyDown={(e) => handleKeyDown(e)} />
                     </div>
-                    <button className='text-[#2b2b2b] p-2.5 rounded-xl bg-gray-50 opacity-80'>
-                        <IconContext.Provider value={{ size: 25 }}>
+                    <button className='text-[#2b2b2b] p-2.5 rounded-lg bg-gray-50 opacity-80' onClick={() => setMenuOpen(true)}>
+                        <IconContext.Provider value={{ size: 20 }}>
                             <FiSliders />
                         </IconContext.Provider>
                     </button>
@@ -53,6 +56,8 @@ export default function SearchPage() {
                     ))}
                 </div>
             }
+
+            {menuOpen && <SourceSelect setMenuOpen={setMenuOpen} menuOpen={menuOpen} source={source} setSource={setSource} setMangaStore={setMangaStore}/>}
         </Layout>
     )
 }
