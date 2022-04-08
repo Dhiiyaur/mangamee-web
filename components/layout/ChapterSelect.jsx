@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { useRef, useEffect, useState } from 'react';
 
-
 export default function ChapterSelect({ chapters, openChapters, setOpenChapters, chapterName, mangaId, sourceId }) {
 
     let router = useRouter()

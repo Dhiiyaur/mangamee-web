@@ -25,7 +25,6 @@ export default function UpperNavbar() {
     return (
         <>
             <div className='flex z-20 space-x-5 text-center justify-end px-5 py-3.5 sticky top-0 bg-[#1d1c1cfc]'>
-
                 <button className='text-white cursor-pointer' onClick={() => router.push('/search')}>
                     <IconContext.Provider value={{ size: 25 }}>
                         <FiSearch />

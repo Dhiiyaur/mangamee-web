@@ -5,7 +5,7 @@ export default function MangaCard({ value, source }) {
 
     return (
         <div
-            className='w-full h-60 bg-gray-500 rounded-md overflow-hidden cursor-pointer'
+            className='w-full h-60 bg-gray-500 rounded-lg overflow-hidden cursor-pointer'
             onClick={() => router.push(`/m/${source}/${value.Id}`)}
         >
             <div>
