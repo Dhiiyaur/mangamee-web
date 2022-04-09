@@ -26,13 +26,15 @@ export default function MangaPage() {
 
     return (
         <Layout>
-            <div className='bg-gray-500 w-full h-[500px]'>
-                <img
-                    src={data.Cover}
-                    // src={data.Cover123}
-                    alt=''
-                    className='w-full h-[500px] object-cover'
-                />
+            <div className='flex justify-center sm:mt-10'>
+                <div className='sm:w-[40%] w-full h-[500px]'>
+                    <img
+                        src={data.Cover}
+                        // src={data.Cover123}
+                        alt=''
+                        className='w-full h-[500px] object-cover'
+                    />
+                </div>
             </div>
 
             <div className='flex flex-col p-8 space-y-5'>
@@ -40,7 +42,10 @@ export default function MangaPage() {
                     <span className='text-white opacity-90 text-lg font-medium'>
                         {data.Title}
                     </span>
-                    <span onClick={() => setIsBookmark(!isBookmark)} className="mt-1">
+                    <span
+                        onClick={() => setIsBookmark(!isBookmark)}
+                        className='mt-1'
+                    >
                         <Bookmark isBookmark={isBookmark} />
                     </span>
                 </div>
