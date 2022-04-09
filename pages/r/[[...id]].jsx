@@ -22,7 +22,7 @@ export default function MangaRead() {
 
     return (
         <Layout>
-            <div>
+            <div className='pb-12 flex flex-col justify-center'>
                 {data?.Images?.map((value, index) => (
                     <img
                         key={index}

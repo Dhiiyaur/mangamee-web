@@ -1,34 +1,32 @@
-import Layout from '@/components/layout/Layout'
+import Layout from '@/components/layout/Layout';
 import MangaCard from '@/components/card/MangaCard';
-import { useState } from 'react'
+import { useState } from 'react';
 import { fetcherSearchManga, SERVER_BASE_URL_MANGA } from '@/lib/api';
 import MangaCardSkeleton from '@/components/loading/MangaCardSkeleton';
-import { FiSliders, FiSearch } from "react-icons/fi";
-import { IconContext } from "react-icons";
+import { FiSliders, FiSearch } from 'react-icons/fi';
+import { IconContext } from 'react-icons';
 import SourceSelect from '@/components/modal/SourceSelect';
 
-
 export default function SearchPage() {
-
-    const [menuOpen, setMenuOpen] = useState(false)
-    const [loading, setLoading] = useState(false)
-    const [source, setSource] = useState(1)
-    const [searchManga, setSearchManga] = useState()
-    const [mangaStore, setMangaStore] = useState([])
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [source, setSource] = useState(1);
+    const [searchManga, setSearchManga] = useState();
+    const [mangaStore, setMangaStore] = useState([]);
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') getManga();
-    }
+    };
 
     const getManga = async () => {
-
-        setLoading(true)
-        let res = await fetcherSearchManga(`${SERVER_BASE_URL_MANGA}/search/${source}`, searchManga)
-        setMangaStore(res)
-        setLoading(false)
-    }
-
-
+        setLoading(true);
+        let res = await fetcherSearchManga(
+            `${SERVER_BASE_URL_MANGA}/search/${source}`,
+            searchManga
+        );
+        setMangaStore(res);
+        setLoading(false);
+    };
 
     return (
         <Layout>
@@ -40,24 +38,42 @@ export default function SearchPage() {
                                 <FiSearch />
                             </IconContext.Provider>
                         </span>
-                        <input className='outline-none bg-[#2b2b2b] p-2.5 pl-5  text-white text-sm' placeholder='Search' onChange={(e) => setSearchManga(e.target.value)} onKeyDown={(e) => handleKeyDown(e)} />
+                        <input
+                            className='outline-none bg-[#2b2b2b] p-2.5 pl-5  text-white text-sm w-full'
+                            placeholder='Search'
+                            onChange={(e) => setSearchManga(e.target.value)}
+                            onKeyDown={(e) => handleKeyDown(e)}
+                        />
                     </div>
-                    <button className='text-[#2b2b2b] p-2.5 rounded-lg bg-gray-50 opacity-80' onClick={() => setMenuOpen(true)}>
+                    <button
+                        className='text-[#2b2b2b] p-2.5 rounded-lg bg-gray-50 opacity-80'
+                        onClick={() => setMenuOpen(true)}
+                    >
                         <IconContext.Provider value={{ size: 20 }}>
                             <FiSliders />
                         </IconContext.Provider>
                     </button>
                 </div>
             </div>
-            {loading ? <MangaCardSkeleton /> :
-                <div className='grid grid-cols-2 gap-4 px-5 py-4 mt-3'>
+            {loading ? (
+                <MangaCardSkeleton />
+            ) : (
+                <div className='grid grid-cols-2 sm:grid-cols-4 gap-4 px-5 py-2 mt-8'>
                     {mangaStore?.map((value, index) => (
                         <MangaCard value={value} key={index} source={source} />
                     ))}
                 </div>
-            }
+            )}
 
-            {menuOpen && <SourceSelect setMenuOpen={setMenuOpen} menuOpen={menuOpen} source={source} setSource={setSource} setMangaStore={setMangaStore}/>}
+            {menuOpen && (
+                <SourceSelect
+                    setMenuOpen={setMenuOpen}
+                    menuOpen={menuOpen}
+                    source={source}
+                    setSource={setSource}
+                    setMangaStore={setMangaStore}
+                />
+            )}
         </Layout>
-    )
+    );
 }
