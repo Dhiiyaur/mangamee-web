@@ -1,7 +1,6 @@
 import Head from "next/head";
 
-export const SEO = (props) => {
-    const { title, image } = props
+export const SEO = ({title, image}) => {
     return (
         <Head>
             <title>{title}</title>
