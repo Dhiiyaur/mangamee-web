@@ -5,6 +5,7 @@ import useSWR from 'swr';
 import { fetcher, SERVER_BASE_URL_MANGA } from '@/lib/api';
 import { useState } from 'react';
 import Bookmark from '@/components/card/Bookmark';
+import { SEO } from '@/components/seo/meta';
 
 export default function MangaPage() {
     const router = useRouter();
@@ -26,6 +27,7 @@ export default function MangaPage() {
 
     return (
         <Layout>
+            <SEO title={data.Title} image={data.Cover}/>
             <div className='flex justify-center sm:mt-10'>
                 <div className='sm:w-[40%] w-full h-[500px]'>
                     <img
