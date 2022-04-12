@@ -2,7 +2,7 @@ import MangaCard from '@/components/card/MangaCard';
 import Layout from '@/components/layout/Layout';
 import { useEffect, useState } from 'react';
 import MangaCardSkeleton from '@/components/loading/MangaCardSkeleton';
-import { SERVER_BASE_URL_MANGA, fetcher } from '@/lib/api';
+import MangameeApi from '@/lib/api';
 import SourceCard from '@/components/card/SourceCard';
 import { MangaSource } from '@/lib/helper';
 
@@ -14,15 +14,17 @@ export default function Home() {
 
     useEffect(() => {
         const initPage = async () => {
-            let res = await fetcher(
-                `${SERVER_BASE_URL_MANGA}/index/${source}/${page}`
-            );
-            if (page == 1) {
-                setMangaData(res);
-            } else {
-                setMangaData((prev) => [...prev, ...res]);
+            let fetch = await MangameeApi.fetchIndex({source:source, page:page})
+            if (fetch.status == 200) {
+                let res = await fetch.json()
+                if (page == 1) {
+                    setMangaData(res);
+                } else {
+                    setMangaData((prev) => [...prev, ...res]);
+                }
+                setLoading(false);
             }
-            setLoading(false);
+            
         };
 
         initPage();

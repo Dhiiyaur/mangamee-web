@@ -2,32 +2,33 @@ import { useRouter } from 'next/router';
 import MangaDetailSkeleton from '@/components/loading/MangaDetailSkeleton';
 import Layout from '@/components/layout/Layout';
 import useSWR from 'swr';
-import { fetcher, SERVER_BASE_URL_MANGA } from '@/lib/api';
+import MangameeApi from '@/lib/api';
 import { useState } from 'react';
 import Bookmark from '@/components/card/Bookmark';
-import { SEO } from '@/components/seo/meta';
+import { Seo } from '@/components/Seo';
 
-export default function MangaPage() {
-    const router = useRouter();
+export default function MangaPage({data, id}) {
+
     const [searchFilter, setSearchFilter] = useState('');
     const [isBookmark, setIsBookmark] = useState(false);
-    const { id } = router.query;
-    const { data, error } = useSWR(
-        id ? `${SERVER_BASE_URL_MANGA}/detail/${id[0]}/${id[1]}` : null,
-        fetcher
-    );
+    let router = useRouter()
+    // const { id } = router.query;
+    // const { data, error } = useSWR(
+    //     id ? `${SERVER_BASE_URL_MANGA}/detail/${id[0]}/${id[1]}` : null,
+    //     fetcher
+    // );
 
-    if (error) router.push('/404');
-    if (!data)
-        return (
-            <Layout>
-                <MangaDetailSkeleton />
-            </Layout>
-        );
+    // if (error) router.push('/404');
+    // if (!data)
+    //     return (
+    //         <Layout>
+    //             <MangaDetailSkeleton />
+    //         </Layout>
+    //     );
 
     return (
         <Layout>
-            <SEO title={data.Title} image={data.Cover}/>
+            <Seo cover={data.Cover} desc={data.Title}/>
             <div className='flex justify-center sm:mt-10'>
                 <div className='sm:w-[40%] w-full h-[500px]'>
                     <img
@@ -86,4 +87,17 @@ export default function MangaPage() {
             </div>
         </Layout>
     );
+}
+
+
+
+export async function getServerSideProps(context) {
+
+    const { id } = context.params
+    let fetch = await MangameeApi.fetchDetail({source:id[0], mangaId:id[1]})
+    if (fetch.status !== 200) return {redirect: { destination: "/404"}}
+    let data = await fetch.json()
+    return {
+        props: {data, id},
+    }
 }
