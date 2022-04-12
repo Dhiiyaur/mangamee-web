@@ -11,7 +11,7 @@ export default function MangaRead() {
     const router = useRouter()
     const { id } = router.query
     const { data, error } = useSWR(id ? {source:id[0], mangaId:id[1], chapterId:id[2]} : null, MangameeApi.fetchImage)
-    const { data: dataChapter, error: errorChapter } = useSWR(id ? {source:id[0], mangaId:id[1], chapterId:id[2]} : null, MangameeApi.fetchChapter)
+    const { data: dataChapter, error: errorChapter } = useSWR(id ? {source:id[0], mangaId:id[1]} : null, MangameeApi.fetchChapter)
 
     if (error && errorChapter) router.push('/404')
     if (!data && !dataChapter) return (
