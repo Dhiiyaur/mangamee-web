@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-// import { useAuth } from '@/contexts/store';
 import { FiSearch, FiMenu } from "react-icons/fi";
 import { IconContext } from "react-icons";
 
