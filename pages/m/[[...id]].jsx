@@ -7,28 +7,26 @@ import { useState } from 'react';
 import Bookmark from '@/components/card/Bookmark';
 import { Seo } from '@/components/Seo';
 
-export default function MangaPage({data, id}) {
+export default function MangaPage({meta, id}) {
 
     const [searchFilter, setSearchFilter] = useState('');
     const [isBookmark, setIsBookmark] = useState(false);
     let router = useRouter()
     // const { id } = router.query;
-    // const { data, error } = useSWR(
-    //     id ? `${SERVER_BASE_URL_MANGA}/detail/${id[0]}/${id[1]}` : null,
-    //     fetcher
-    // );
 
-    // if (error) router.push('/404');
-    // if (!data)
-    //     return (
-    //         <Layout>
-    //             <MangaDetailSkeleton />
-    //         </Layout>
-    //     );
+    const { data, error } = useSWR( id ? {source:id[0], mangaId:id[1]}  : null, MangameeApi.fetchDetail)
+    if (error) router.push('/404');
+    if (!data)
+        return (
+            <Layout>
+                <Seo cover={meta.Cover} desc={meta.Title}/>
+                <MangaDetailSkeleton />
+            </Layout>
+        );
 
     return (
         <Layout>
-            <Seo cover={data.Cover} desc={data.Title}/>
+            <Seo cover={meta.Cover} desc={meta.Title}/>
             <div className='flex justify-center sm:mt-10'>
                 <div className='sm:w-[40%] w-full h-[500px]'>
                     <img
@@ -89,15 +87,25 @@ export default function MangaPage({data, id}) {
     );
 }
 
-
-
 export async function getServerSideProps(context) {
 
     const { id } = context.params
-    let fetch = await MangameeApi.fetchDetail({source:id[0], mangaId:id[1]})
+    let fetch = await MangameeApi.fetchMeta({source:id[0], mangaId:id[1]})
     if (fetch.status !== 200) return {redirect: { destination: "/404"}}
-    let data = await fetch.json()
+    let meta = await fetch.json()
     return {
-        props: {data, id},
+        props: {meta, id},
     }
 }
+
+
+// export async function getServerSideProps(context) {
+
+//     const { id } = context.params
+//     let fetch = await MangameeApi.fetchDetail({source:id[0], mangaId:id[1]})
+//     if (fetch.status !== 200) return {redirect: { destination: "/404"}}
+//     let data = await fetch.json()
+//     return {
+//         props: {data, id},
+//     }
+// }
