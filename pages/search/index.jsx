@@ -1,7 +1,7 @@
 import Layout from '@/components/layout/Layout';
 import MangaCard from '@/components/card/MangaCard';
 import { useState } from 'react';
-import { fetcherSearchManga, SERVER_BASE_URL_MANGA } from '@/lib/api';
+import MangameeApi from '@/lib/api';
 import MangaCardSkeleton from '@/components/loading/MangaCardSkeleton';
 import { FiSliders, FiSearch } from 'react-icons/fi';
 import { IconContext } from 'react-icons';
@@ -20,12 +20,12 @@ export default function SearchPage() {
 
     const getManga = async () => {
         setLoading(true);
-        let res = await fetcherSearchManga(
-            `${SERVER_BASE_URL_MANGA}/search/${source}`,
-            searchManga
-        );
-        setMangaStore(res);
-        setLoading(false);
+        let fetch = await MangameeApi.fetchSearch({source:source, search:searchManga})
+        if (fetch.status == 200) {
+            let res = await fetch.json()
+            setMangaStore(res);
+            setLoading(false);
+        }
     };
 
     return (

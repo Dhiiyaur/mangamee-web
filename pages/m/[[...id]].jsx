@@ -12,8 +12,6 @@ export default function MangaPage({meta, id}) {
     const [searchFilter, setSearchFilter] = useState('');
     const [isBookmark, setIsBookmark] = useState(false);
     let router = useRouter()
-    // const { id } = router.query;
-
     const { data, error } = useSWR( id ? {source:id[0], mangaId:id[1]}  : null, MangameeApi.fetchDetail)
     if (error) router.push('/404');
     if (!data)
@@ -97,15 +95,3 @@ export async function getServerSideProps(context) {
         props: {meta, id},
     }
 }
-
-
-// export async function getServerSideProps(context) {
-
-//     const { id } = context.params
-//     let fetch = await MangameeApi.fetchDetail({source:id[0], mangaId:id[1]})
-//     if (fetch.status !== 200) return {redirect: { destination: "/404"}}
-//     let data = await fetch.json()
-//     return {
-//         props: {data, id},
-//     }
-// }
