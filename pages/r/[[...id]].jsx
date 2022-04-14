@@ -32,6 +32,7 @@ export default function MangaRead({meta, id}) {
                         src={value.Image}
                         // src={value.Cover}
                         alt=''
+                        loading="lazy"
                     />
                 ))}
             </div>
