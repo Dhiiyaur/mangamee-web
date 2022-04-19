@@ -31,11 +31,14 @@ export default function BottomNavbar({
 
     useEffect(() => {
         if (dataChapter && currentChapter) {
-            // console.log(dataChapter, currentChapter, mangaId, sourceId)
-            let index = FindIndex(dataChapter.Chapters, currentChapter);
-            setChapterIndex(index);
-            setChapterName(dataChapter.Chapters[index]['Name']);
-
+            console.log(dataChapter.Chapters, currentChapter, mangaId, sourceId)
+            try {
+                let index = FindIndex(dataChapter.Chapters, currentChapter);
+                setChapterIndex(index);
+                setChapterName(dataChapter.Chapters[index]['Name']);
+            } catch (error) {
+                console.log("error")
+            }
         }
     }, [dataChapter, currentChapter]);
 
@@ -43,7 +46,7 @@ export default function BottomNavbar({
         <div>
             <div className='fixed inset-x-0 bottom-0 p-2 bg-[#121212] opacity-70'>
                 <div className='flex justify-center'>
-                    <div className='flex justify-between w-[80%] items-center'>
+                    <div className='flex justify-between w-[80%] sm:w-[40%] items-center'>
                         <button
                             className='text-white'
                             onClick={() => HandlePrevChapter()}

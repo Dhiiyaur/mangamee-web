@@ -10,10 +10,8 @@ import { Seo } from '@/components/Seo';
 export default function MangaRead({meta, id}) {
 
     const router = useRouter()
-    // const { id } = router.query
     const { data, error } = useSWR(id ? { source: id[0], mangaId: id[1], chapterId: id[2] } : null, MangameeApi.fetchImage)
     const { data: dataChapter, error: errorChapter } = useSWR(id ? { source: id[0], mangaId: id[1] } : null, MangameeApi.fetchChapter)
-
     if (error && errorChapter) router.push('/404')
     if (!data && !dataChapter) return (
         <Layout>
@@ -23,7 +21,7 @@ export default function MangaRead({meta, id}) {
     )
 
     return (
-        <Layout>
+        <Layout mobile={true}>
             <Seo cover={meta.Cover} desc={meta.Title} />
             <div className='pb-12 flex flex-col justify-center'>
                 {data?.Images?.map((value, index) => (

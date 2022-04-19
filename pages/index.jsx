@@ -12,33 +12,50 @@ export default function Home() {
     const [mangaData, setMangaData] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const initPage = async () => {
-            let fetch = await MangameeApi.fetchIndex({source:source, page:page})
-            if (fetch.status == 200) {
-                let res = await fetch.json()
-                if (page == 1) {
-                    setMangaData(res);
-                } else {
-                    setMangaData((prev) => [...prev, ...res]);
-                }
-                setLoading(false);
-            }
-            
-        };
 
+    const initPage = async () => {
+        let fetch = await MangameeApi.fetchIndex({ source: source, page: page })
+        if (fetch.status == 200) {
+            let res = await fetch.json()
+            if (page == 1) {
+                setMangaData(res);
+            } else {
+                setMangaData((prev) => [...prev, ...res]);
+            }
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        setLoading(true)
+        setMangaData([])
+        initPage()
+    }, [source])
+
+    useEffect(() => {
         initPage();
-    }, [page, source]);
+    }, [page]);
 
     if (loading)
         return (
             <Layout>
+                <div className='flex px-5 py-5 space-x-3'>
+                    {MangaSource.map((value, index) => (
+                        <SourceCard
+                            key={index}
+                            name={value.name}
+                            source={source}
+                            setSource={setSource}
+                            sourceId={value.id}
+                        />
+                    ))}
+                </div>
                 <MangaCardSkeleton />
             </Layout>
         );
 
     return (
-        <Layout>
+        <Layout >
             <div className='flex px-5 py-5 space-x-3'>
                 {MangaSource.map((value, index) => (
                     <SourceCard
@@ -50,7 +67,7 @@ export default function Home() {
                     />
                 ))}
             </div>
-            <div className='grid grid-cols-2 sm:grid-cols-4 gap-4 px-5 py-2'>
+            <div className='grid grid-cols-2 sm:grid-cols-5 sm:gap-6 gap-4 px-5 py-2'>
                 {mangaData?.map((value, index) => (
                     <MangaCard value={value} source={source} key={index} />
                 ))}
