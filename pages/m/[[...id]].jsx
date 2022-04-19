@@ -1,30 +1,45 @@
 import { useRouter } from 'next/router';
-import MangaDetailSkeleton from '@/components/loading/MangaDetailSkeleton';
+// import MangaDetailSkeleton from '@/components/loading/MangaDetailSkeleton';
 import Layout from '@/components/layout/Layout';
-import useSWR from 'swr';
+// import useSWR from 'swr';
 import MangameeApi from '@/lib/api';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Bookmark from '@/components/card/Bookmark';
 import { Seo } from '@/components/Seo';
+import BookmarkManager from '@/lib/store';
 
-export default function MangaPage({meta, id}) {
+// export default function MangaPage({ meta, id }) {
+export default function MangaPage({ data, id }) {
 
+    let router = useRouter()
     const [searchFilter, setSearchFilter] = useState('');
     const [isBookmark, setIsBookmark] = useState(false);
-    let router = useRouter()
-    const { data, error } = useSWR( id ? {source:id[0], mangaId:id[1]}  : null, MangameeApi.fetchDetail)
-    if (error) router.push('/404');
-    if (!data)
-        return (
-            <Layout>
-                <Seo cover={meta.Cover} desc={meta.Title}/>
-                <MangaDetailSkeleton />
-            </Layout>
-        );
+
+    const handleSetBookmark = (e) => {
+        e.preventDefault()
+        BookmarkManager.setBookmark({isBookmark:isBookmark, setIsBookmark:setIsBookmark, title: data.Title, cover: data.Cover, mangaId : id[1], sourceId : id[0]})
+    }
+
+    useEffect(()=> {
+        setIsBookmark(BookmarkManager.checkBookmark({mangaId : id[1]}))
+    }, [])
+
+
+    // const { data, error } = useSWR(id ? { source: id[0], mangaId: id[1] } : null, MangameeApi.fetchDetail)
+    // if (error) router.push('/404');
+    // if (!data)
+    //     return (
+    //         <Layout>
+    //             <Seo cover={meta.Cover} desc={meta.Title} />
+    //             <MangaDetailSkeleton />
+    //         </Layout>
+    //     );
+
 
     return (
-        <Layout>
-            <Seo cover={meta.Cover} desc={meta.Title}/>
+        <Layout mobile={true}>
+            {/* <Seo cover={meta.Cover} desc={meta.Title} /> */}
+            <Seo cover={data.Cover} desc={data.Title} />
             <div className='flex justify-center sm:mt-10'>
                 <div className='sm:w-[40%] w-full h-[500px]'>
                     <img
@@ -40,9 +55,10 @@ export default function MangaPage({meta, id}) {
                 <div className='flex justify-between space-x-5'>
                     <span className='text-white opacity-90 text-lg font-medium'>
                         {data.Title}
+                        {/* {data.Title2} */}
                     </span>
                     <span
-                        onClick={() => setIsBookmark(!isBookmark)}
+                        onClick={(e) => handleSetBookmark(e)}
                         className='mt-1'
                     >
                         <Bookmark isBookmark={isBookmark} />
@@ -88,10 +104,19 @@ export default function MangaPage({meta, id}) {
 export async function getServerSideProps(context) {
 
     const { id } = context.params
-    let fetch = await MangameeApi.fetchMeta({source:id[0], mangaId:id[1]})
-    if (fetch.status !== 200) return {redirect: { destination: "/404"}}
-    let meta = await fetch.json()
+    let fetch = await MangameeApi.fetchDetail({source: id[0], mangaId: id[1]})
     return {
-        props: {meta, id},
+        props: { data:fetch, id },
     }
 }
+
+// export async function getServerSideProps(context) {
+
+//     const { id } = context.params
+//     let fetch = await MangameeApi.fetchMeta({ source: id[0], mangaId: id[1] })
+//     if (fetch.status !== 200) return { redirect: { destination: "/404" } }
+//     let meta = await fetch.json()
+//     return {
+//         props: { meta, id },
+//     }
+// }

@@ -104,6 +104,21 @@ export default function UpperNavbar() {
                                     </h3>
                                 </div>
                             </span>
+                            <span className='flex'>
+                                <span
+                                    className={`${currentRoute == 'bookmark' &&
+                                        'bg-green-300'
+                                        } w-[1.5%]`}
+                                />
+                                <div
+                                    className='px-7 w-full'
+                                    onClick={() => router.push('/bookmark')}
+                                >
+                                    <h3 className={`${(currentRoute == 'b') ? "text-green-300 font-semibold" : "text-white opacity-70"} cursor-pointer text-lg border-b-2 py-3 border-[#2e2e2e]`}>
+                                        Bookmark
+                                    </h3>
+                                </div>
+                            </span>
                         </div>
                     </div>
                 </div>

@@ -31,9 +31,9 @@ export default function ChapterSelect({
                     <span className='w-[20%] border-b-[3px] rounded-lg' />
                 </div>
 
-                <div className='px-6 mt-6'>
+                <div className='px-6 mt-6 pb-5'>
                     <input
-                        className='outline-none w-full bg-[#2b2b2b] p-3 text-white rounded-lg text-sm'
+                        className='outline-none w-full bg-[#2b2b2b] p-3 text-white rounded-lg text-sm border-gray-500 border-[1px]'
                         placeholder='Search Chapter'
                         onChange={(e) => setSearchFilter(e.target.value)}
                     />
@@ -41,7 +41,7 @@ export default function ChapterSelect({
 
                 {/* scroll nih */}
 
-                <div className='overflow-y-scroll absolute h-full w-full mt-4 pb-28'>
+                <div className='overflow-y-scroll absolute h-full w-full mt- pb-28'>
                     {chapters
                         .filter((item) => {
                             if (
