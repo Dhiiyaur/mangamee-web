@@ -26,7 +26,7 @@ export default function ChapterSelect({
 
     return (
         <div ref={dropdown}>
-            <div className='fixed z-30 w-full sm:w-[50%] h-2/3 bottom-0 inset-x-0 sm:left-[25%] rounded-t-3xl bg-[#2b2b2b]'>
+            <div className='fixed z-30 w-full sm:w-[50%] h-2/3 bottom-0 inset-x-0 sm:left-[25%] rounded-t-2xl bg-[#2b2b2b]'>
                 <div className='flex justify-center mt-5'>
                     <span className='w-[20%] border-b-[3px] rounded-lg' />
                 </div>

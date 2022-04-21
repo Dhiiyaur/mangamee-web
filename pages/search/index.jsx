@@ -1,6 +1,6 @@
 import Layout from '@/components/layout/Layout';
 import MangaCard from '@/components/card/MangaCard';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MangameeApi from '@/lib/api';
 import MangaCardSkeleton from '@/components/loading/MangaCardSkeleton';
 import { FiSliders, FiSearch } from 'react-icons/fi';
@@ -13,6 +13,7 @@ export default function SearchPage() {
     const [source, setSource] = useState(1);
     const [searchManga, setSearchManga] = useState();
     const [mangaStore, setMangaStore] = useState([]);
+    const [mangaSource, setMangaSource] = useState([])
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') getManga();
@@ -27,6 +28,11 @@ export default function SearchPage() {
             setLoading(false);
         }
     };
+
+    useEffect(async() => {
+        let fetch = await MangameeApi.fetchSource()
+        setMangaSource(fetch)
+    }, [])
 
     return (
         <Layout>
@@ -72,6 +78,7 @@ export default function SearchPage() {
                     source={source}
                     setSource={setSource}
                     setMangaStore={setMangaStore}
+                    mangaSource={mangaSource}
                 />
             )}
         </Layout>
