@@ -1,5 +1,4 @@
 import { useRef, useEffect } from 'react';
-import { MangaSource } from '@/lib/helper';
 
 export default function SourceSelect({
     setMenuOpen,
@@ -7,6 +6,7 @@ export default function SourceSelect({
     source,
     setSource,
     setMangaStore,
+    mangaSource
 }) {
     const dropdown = useRef(null);
 
@@ -38,7 +38,7 @@ export default function SourceSelect({
                         Source select
                     </span>
                     <div className='flex flex-col mt-5'>
-                        {MangaSource.map((value, index) => (
+                        {mangaSource.map((value, index) => (
                             <div
                                 key={index}
                                 className='flex py-2.5 items-center space-x-7 cursor-pointer'
