@@ -4,10 +4,6 @@ import { useEffect, useState } from 'react';
 import MangaCardSkeleton from '@/components/loading/MangaCardSkeleton';
 import MangameeApi from '@/lib/api';
 import SourceCard from '@/components/card/SourceCard';
-// import { MangaSource } from '@/lib/helper';
-
-
-
 
 export default function Home() {
 
@@ -81,14 +77,8 @@ export default function Home() {
                     <MangaCard value={value} source={source} key={index} />
                 ))}
             </div>
-            {/* <div
-                className='flex justify-center cursor-pointer items-center py-3 hover:bg-[#1a1a1a]'
-                onClick={() => setPage(page + 1)}
-            >
-                <span className='text-white text-sm'>More</span>
-            </div> */}
             <div className='flex justify-center items-center py-3'>
-                <button className='bg-red-300 px-5 py-2 rounded-2xl' onClick={() => setPage(page + 1)}>
+                <button className='bg-white px-5 py-2 rounded-xl opacity-80' onClick={() => setPage(page + 1)}>
                     <span className='text-gray-900 text-sm'>
                         More
                     </span>

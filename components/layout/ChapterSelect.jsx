@@ -26,14 +26,14 @@ export default function ChapterSelect({
 
     return (
         <div ref={dropdown}>
-            <div className='fixed z-30 w-full sm:w-[50%] h-2/3 bottom-0 inset-x-0 sm:left-[25%] rounded-t-2xl bg-[#2b2b2b]'>
+            <div className='fixed z-30 w-full sm:w-[50%] h-2/3 bottom-0 inset-x-0 sm:left-[25%] rounded-t-3xl bg-[#2b2b2b]'>
                 <div className='flex justify-center mt-5'>
                     <span className='w-[20%] border-b-[3px] rounded-lg' />
                 </div>
 
                 <div className='px-6 mt-6 pb-5'>
                     <input
-                        className='outline-none w-full bg-[#2b2b2b] p-3 text-white rounded-lg text-sm border-gray-500 border-[1px]'
+                        className='outline-none w-full bg-[#2b2b2b] p-3 text-white rounded-xl text-sm border-white border-[1.5px]'
                         placeholder='Search Chapter'
                         onChange={(e) => setSearchFilter(e.target.value)}
                     />
@@ -68,7 +68,7 @@ export default function ChapterSelect({
                                         'bg-green-500'
                                         } w-[1.5%] sm:w-[0.5%]`}
                                 />
-                                <span className='text-white px-7 py-2.5'>
+                                <span className='text-white px-7 py-3'>
                                     {value.Name}
                                 </span>
                             </div>
