@@ -2,11 +2,9 @@ import { useRouter } from 'next/router';
 
 export default function MangaCard({ value, source }) {
     let router = useRouter();
-
-    console.log(value, source)
     return (
         <div
-            className='w-full h-60 rounded-lg overflow-hidden cursor-pointer bg-black'
+            className='w-full h-60 rounded-xl overflow-hidden cursor-pointer bg-black'
             onClick={() => router.push(`/m/${source}/${value.Id}`)}
         >
             <div>

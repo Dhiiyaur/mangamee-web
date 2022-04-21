@@ -6,7 +6,7 @@ export default function Bookmark({ isBookmark }) {
     if (isBookmark)
         return (
             <span className='text-red-300 cursor-pointer'>
-                <IconContext.Provider value={{ size: 25 }}>
+                <IconContext.Provider value={{ size: 28 }}>
                     <AiFillHeart />
                 </IconContext.Provider>
             </span>
@@ -14,7 +14,7 @@ export default function Bookmark({ isBookmark }) {
 
     return (
         <span className='text-red-300 cursor-pointer'>
-            <IconContext.Provider value={{ size: 25 }}>
+            <IconContext.Provider value={{ size: 28 }}>
                 <FiHeart />
             </IconContext.Provider>
         </span>
