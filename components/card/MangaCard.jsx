@@ -27,6 +27,12 @@ export default function MangaCard({ value, source }) {
                                 last chapter {value.LastChapter}
                             </span>
                         }
+
+                        {value.Chapter &&
+                            <span className='text-white opacity-80 text-xs lowercase truncate'>
+                                last chapter {value.Chapter}
+                            </span>
+                        }
                     </div>
                 </div>
             </div>

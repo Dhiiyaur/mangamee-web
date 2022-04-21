@@ -5,13 +5,21 @@ import MangaReadSkeleton from '@/components/loading/MangaReadSkeleton'
 import useSWR from 'swr'
 import MangameeApi from '@/lib/api'
 import { Seo } from '@/components/Seo';
-
+import {useEffect} from 'react'
+import BookmarkManager from '@/lib/store'
 
 export default function MangaRead({meta, id}) {
 
     const router = useRouter()
+
     const { data, error } = useSWR(id ? { source: id[0], mangaId: id[1], chapterId: id[2] } : null, MangameeApi.fetchImage)
     const { data: dataChapter, error: errorChapter } = useSWR(id ? { source: id[0], mangaId: id[1] } : null, MangameeApi.fetchChapter)
+
+
+    useEffect(() => {
+        BookmarkManager.modifyBookmark({chapterId:id[2], mangaId: id[1], sourceId: id[0]})
+    }, [id[2]])
+
     if (error && errorChapter) router.push('/404')
     if (!data && !dataChapter) return (
         <Layout>
@@ -19,7 +27,6 @@ export default function MangaRead({meta, id}) {
             <MangaReadSkeleton />
         </Layout>
     )
-
     return (
         <Layout mobile={true}>
             <Seo cover={meta.Cover} desc={meta.Title} />

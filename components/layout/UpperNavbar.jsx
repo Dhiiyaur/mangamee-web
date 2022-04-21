@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-// import { FiSearch, FiMenu, FiGrid } from "react-icons/fi";
-import { RiLayoutGridFill, RiSearchLine, RiHome2Line, RiBookMarkLine, RiBookOpenLine, RiFunctionLine, RiCloseLine } from "react-icons/ri";
+import { RiSearchLine, RiHome2Line, RiBookMarkLine, RiBookOpenLine, RiFunctionLine, RiCloseLine } from "react-icons/ri";
 import { IconContext } from "react-icons";
 
 export default function UpperNavbar() {
@@ -24,19 +23,12 @@ export default function UpperNavbar() {
 
     return (
         <>
-            {/* <div className='flex z-20 space-x-5 text-center justify-end px-5 py-3.5 sticky top-0 bg-[#1d1c1cfc]'> */}
-            <div className='flex z-20 space-x-5 text-center justify-between px-5 py-3.5 sticky top-0 bg-[#333335] border-b-[0.5px] border-b-[#9b9b9b]'>
-                {/* <button className='text-white cursor-pointer' onClick={() => router.push('/search')}>
-                    <IconContext.Provider value={{ size: 25 }}>
-                        <FiSearch />
-                    </IconContext.Provider>
-                </button> */}
+            <div className='flex z-20 space-x-5 text-center justify-between px-5 py-3.5 sticky top-0 bg-[#333335] border-b-[1px] border-b-[#9b9b9b]'>
                 <button
                     className='text-white cursor-pointer'
                     onClick={() => setOpenMenu(true)}
                 >
                     <IconContext.Provider value={{ size: 30 }}>
-                        {/* <FiMenu /> */}
                         <RiFunctionLine />
                     </IconContext.Provider>
                 </button>
@@ -49,7 +41,6 @@ export default function UpperNavbar() {
 
             {openMenu && (
                 <div className='fixed inset-0 z-20'>
-                    {/* <div className='min-h-screen bg-[#1a1a1a]'> */}
                     <div className='min-h-screen bg-[#2b2b2b]'>
                         <div className='flex justify-end p-3'>
                             <span className='text-white cursor-pointer' onClick={() => setOpenMenu(false)}>
@@ -64,7 +55,7 @@ export default function UpperNavbar() {
                                     className={`${currentRoute == 'home' && 'bg-green-200'
                                         } w-[1.5%]`}
                                 />
-                                <span className={`${currentRoute == 'home' ? "text-green-200" : "text-white"} flex items-center`}>
+                                <span className={`${currentRoute == 'home' ? "text-green-200" : "text-white opacity-80"} flex items-center`}>
                                     <IconContext.Provider value={{ size: 32 }}>
                                         <RiHome2Line />
                                     </IconContext.Provider>
@@ -73,7 +64,7 @@ export default function UpperNavbar() {
                                     className='px-2 w-full'
                                     onClick={() => router.push('/')}
                                 >
-                                    <h3 className={`${(currentRoute == 'home') ? "text-green-200 font-semibold" : "text-white"} cursor-pointer text-md py-3`}>
+                                    <h3 className={`${(currentRoute == 'home') ? "text-green-200 font-semibold" : "text-white opacity-80"} cursor-pointer text-md py-3`}>
                                         Home
                                     </h3>
                                 </div>
