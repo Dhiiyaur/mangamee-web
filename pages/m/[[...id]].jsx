@@ -51,7 +51,7 @@ export default function MangaPage({ data, id }) {
                 </div>
             </div>
 
-            <div className='flex flex-col p-8 space-y-5'>
+            <div className='flex flex-col p-8 space-y-2.5'>
                 <span
                     onClick={(e) => handleSetBookmark(e)}
                     className='flex justify-end'
@@ -72,7 +72,7 @@ export default function MangaPage({ data, id }) {
 
             <div className='px-6 mt-5'>
                 <input
-                    className='outline-none w-full bg-gray-700 p-4 border text-white rounded-xl'
+                    className='outline-none w-full bg-gray-700 p-4 border-[1.5px] text-white rounded-xl'
                     placeholder='Search Chapter'
                     onChange={(e) => setSearchFilter(e.target.value)}
                 />
@@ -88,7 +88,7 @@ export default function MangaPage({ data, id }) {
                     }
                 })?.map((value, index) => (
                     <div
-                        className='rounded-xl bg-gray-700 p-4 text-white flex justify-start cursor-pointer'
+                        className='rounded-xl bg-gray-700 p-4 px-6 text-white flex justify-start cursor-pointer'
                         key={index}
                         onClick={() =>
                             router.push(`/r/${id[0]}/${id[1]}/${value.Id}`)

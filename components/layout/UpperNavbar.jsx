@@ -25,7 +25,7 @@ export default function UpperNavbar() {
     return (
         <>
             {/* <div className='flex z-20 space-x-5 text-center justify-end px-5 py-3.5 sticky top-0 bg-[#1d1c1cfc]'> */}
-            <div className='flex z-20 space-x-5 text-center justify-between px-5 py-3.5 sticky top-0 bg-[#333335]'>
+            <div className='flex z-20 space-x-5 text-center justify-between px-5 py-3.5 sticky top-0 bg-[#333335] border-b-[0.5px] border-b-[#9b9b9b]'>
                 {/* <button className='text-white cursor-pointer' onClick={() => router.push('/search')}>
                     <IconContext.Provider value={{ size: 25 }}>
                         <FiSearch />
@@ -35,13 +35,13 @@ export default function UpperNavbar() {
                     className='text-white cursor-pointer'
                     onClick={() => setOpenMenu(true)}
                 >
-                    <IconContext.Provider value={{ size: 28 }}>
+                    <IconContext.Provider value={{ size: 30 }}>
                         {/* <FiMenu /> */}
                         <RiFunctionLine />
                     </IconContext.Provider>
                 </button>
                 <button className='text-white cursor-pointer' onClick={() => router.push('/search')}>
-                    <IconContext.Provider value={{ size: 28 }}>
+                    <IconContext.Provider value={{ size: 25 }}>
                         <RiSearchLine />
                     </IconContext.Provider>
                 </button>
@@ -53,27 +53,13 @@ export default function UpperNavbar() {
                     <div className='min-h-screen bg-[#2b2b2b]'>
                         <div className='flex justify-end p-3'>
                             <span className='text-white cursor-pointer' onClick={() => setOpenMenu(false)}>
-                                {/* <svg
-                                    xmlns='http://www.w3.org/2000/svg'
-                                    className='h-7 w-7'
-                                    fill='none'
-                                    viewBox='0 0 24 24'
-                                    stroke='currentColor'
-                                    strokeWidth={2}
-                                >
-                                    <path
-                                        strokeLinecap='round'
-                                        strokeLinejoin='round'
-                                        d='M6 18L18 6M6 6l12 12'
-                                    />
-                                </svg> */}
                                 <IconContext.Provider value={{ size: 32 }}>
                                     <RiCloseLine />
                                 </IconContext.Provider>
                             </span>
                         </div>
-                        <div className='flex flex-col'>
-                            <span className='flex space-x-5'>
+                        <div className='flex flex-col space-y-3'>
+                            <span className='flex space-x-5 cursor-pointer'>
                                 <span
                                     className={`${currentRoute == 'home' && 'bg-green-200'
                                         } w-[1.5%]`}
@@ -84,70 +70,69 @@ export default function UpperNavbar() {
                                     </IconContext.Provider>
                                 </span>
                                 <div
-                                    className='w-full'
+                                    className='px-2 w-full'
                                     onClick={() => router.push('/')}
                                 >
-                                    <h3 className={`${(currentRoute == 'home') ? "text-green-200 font-semibold" : "text-white"} cursor-pointer text-lg py-3`}>
+                                    <h3 className={`${(currentRoute == 'home') ? "text-green-200 font-semibold" : "text-white"} cursor-pointer text-md py-3`}>
                                         Home
                                     </h3>
                                 </div>
                             </span>
-                            <span className='flex space-x-5'>
+                            <span className='flex space-x-5 cursor-pointer'>
                                 <span
                                     className={`${currentRoute == 'search' &&
                                         'bg-green-200'
                                         } w-[1.5%]`}
                                 />
-                                <span className={`${currentRoute == 'search' ? "text-green-200" : "text-white"} flex items-center`}>
+                                <span className={`${currentRoute == 'search' ? "text-green-200" : "text-white opacity-80"} flex items-center`}>
                                     <IconContext.Provider value={{ size: 32 }}>
                                         <RiSearchLine />
                                     </IconContext.Provider>
                                 </span>
                                 <div
-                                    className='w-full'
+                                    className='px-2 w-full'
                                     onClick={() => router.push('/search')}
                                 >
-                                    <h3 className={`${(currentRoute == 'search') ? "text-green-200 font-semibold" : "text-white"} cursor-pointer text-lg py-3`}>
+                                    <h3 className={`${(currentRoute == 'search') ? "text-green-200 font-semibold" : "text-white opacity-80"} cursor-pointer text-md py-3`}>
                                         Search
                                     </h3>
                                 </div>
                             </span>
-                            <span className='flex space-x-5'>
+                            <span className='flex space-x-5 cursor-pointer'>
                                 <span
                                     className={`${(currentRoute == 'm' || currentRoute == 'r' || currentRoute == '404') &&
                                         'bg-green-200'
                                         } w-[1.5%]`}
                                 />
-                                <span className={`${(currentRoute == 'm' || currentRoute == 'r' || currentRoute == '404') ? "text-green-200" : "text-white"} flex items-center`}>
+                                <span className={`${(currentRoute == 'm' || currentRoute == 'r' || currentRoute == '404') ? "text-green-200" : "text-white opacity-80"} flex items-center`}>
                                     <IconContext.Provider value={{ size: 32 }}>
                                         <RiBookOpenLine />
                                     </IconContext.Provider>
                                 </span>
                                 <div
-                                    className='w-full'
+                                    className='px-2 w-full'
                                 >
-                                    <h3 className={`${(currentRoute == 'm' || currentRoute == 'r') ? "text-green-200 font-semibold" : "text-white"} text-lg py-3`}>
+                                    <h3 className={`${(currentRoute == 'm' || currentRoute == 'r') ? "text-green-200 font-semibold" : "text-white opacity-80"} text-md py-3`}>
                                         Read
                                     </h3>
                                 </div>
                             </span>
-                            <span className='flex space-x-5'>
-
+                            <span className='flex space-x-5 cursor-pointer'>
                                 <span
                                     className={`${currentRoute == 'bookmark' &&
                                         'bg-green-200'
                                         } w-[1.5%]`}
                                 />
-                                <span className={`${currentRoute == 'bookmark' ? "text-green-200" : "text-white"} flex items-center`}>
+                                <span className={`${currentRoute == 'bookmark' ? "text-green-200" : "text-white opacity-80"} flex items-center`}>
                                     <IconContext.Provider value={{ size: 32 }}>
                                         <RiBookMarkLine />
                                     </IconContext.Provider>
                                 </span>
                                 <div
-                                    className='w-full'
+                                    className='px-2 w-full'
                                     onClick={() => router.push('/bookmark')}
                                 >
-                                    <h3 className={`${(currentRoute == 'b') ? "text-green-200 font-semibold" : "text-white"} cursor-pointer text-lg py-3`}>
+                                    <h3 className={`${(currentRoute == 'b') ? "text-green-200 font-semibold" : "text-white opacity-80"} cursor-pointer text-md py-3`}>
                                         Bookmark
                                     </h3>
                                 </div>
