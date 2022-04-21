@@ -31,7 +31,6 @@ export default function BottomNavbar({
 
     useEffect(() => {
         if (dataChapter && currentChapter) {
-            console.log(dataChapter.Chapters, currentChapter, mangaId, sourceId)
             try {
                 let index = FindIndex(dataChapter.Chapters, currentChapter);
                 setChapterIndex(index);

@@ -33,7 +33,7 @@ export default function SearchPage() {
             <div>
                 <div className='px-5 pt-10 flex justify-between space-x-3'>
                     <div className='flex bg-[#2b2b2b] px-3 rounded-lg w-full border-2 border-[#9b9b9b]'>
-                        <span className='text-white items-center flex opacity-80'>
+                        <span className='text-white items-center flex'>
                             <IconContext.Provider value={{ size: 20 }}>
                                 <FiSearch />
                             </IconContext.Provider>
@@ -46,7 +46,7 @@ export default function SearchPage() {
                         />
                     </div>
                     <button
-                        className='text-[#2b2b2b] p-3.5 rounded-lg bg-gray-50 opacity-80'
+                        className='text-[#2b2b2b] p-3.5 rounded-lg bg-gray-50'
                         onClick={() => setMenuOpen(true)}
                     >
                         <IconContext.Provider value={{ size: 20 }}>
