@@ -44,7 +44,8 @@ export default function BottomNavbar({
 
     return (
         <div>
-            <div className='fixed inset-x-0 bottom-0 p-2 bg-[#121212] opacity-70'>
+            {/* <div className='fixed inset-x-0 bottom-0 p-2 bg-[#121212] opacity-70'> */}
+            <div className='fixed inset-x-0 bottom-0 p-2 bg-[#2b2b2b]'>
                 <div className='flex justify-center'>
                     <div className='flex justify-between w-[80%] sm:w-[40%] items-center'>
                         <button

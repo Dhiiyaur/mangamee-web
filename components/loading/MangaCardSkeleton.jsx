@@ -5,7 +5,7 @@ export default function MangaCardSkeleton() {
                 .fill()
                 .map((_, index) => (
                     <div
-                        className='w-full h-60 bg-gray-700 rounded-md overflow-hidden animate-pulse text-white flex flex-col items-center justify-center space-y-12 mt-2'
+                        className='w-full h-60 bg-gray-600 rounded-md overflow-hidden animate-pulse text-white flex flex-col items-center justify-center space-y-12 mt-2'
                         key={index}
                     >
                         <svg
@@ -24,8 +24,8 @@ export default function MangaCardSkeleton() {
                         </svg>
 
                         <div className='flex flex-col w-full items-center space-y-3'>
-                            <span className='bg-gray-600 p-3 w-[85%] rounded-md' />
-                            <span className='bg-gray-600 p-2 w-[60%] rounded-md' />
+                            <span className='bg-gray-700 p-3 w-[85%] rounded-md' />
+                            <span className='bg-gray-700 p-2 w-[60%] rounded-md' />
                         </div>
                     </div>
                 ))}

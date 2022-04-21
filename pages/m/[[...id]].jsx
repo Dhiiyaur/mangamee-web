@@ -17,11 +17,11 @@ export default function MangaPage({ data, id }) {
 
     const handleSetBookmark = (e) => {
         e.preventDefault()
-        BookmarkManager.setBookmark({isBookmark:isBookmark, setIsBookmark:setIsBookmark, title: data.Title, cover: data.Cover, mangaId : id[1], sourceId : id[0]})
+        BookmarkManager.setBookmark({ isBookmark: isBookmark, setIsBookmark: setIsBookmark, title: data.Title, cover: data.Cover, mangaId: id[1], sourceId: id[0] })
     }
 
-    useEffect(()=> {
-        setIsBookmark(BookmarkManager.checkBookmark({mangaId : id[1]}))
+    useEffect(() => {
+        setIsBookmark(BookmarkManager.checkBookmark({ mangaId: id[1] }))
     }, [])
 
 
@@ -52,18 +52,19 @@ export default function MangaPage({ data, id }) {
             </div>
 
             <div className='flex flex-col p-8 space-y-5'>
-                <div className='flex justify-between space-x-5'>
-                    <span className='text-white opacity-90 text-lg font-medium'>
-                        {data.Title}
-                        {/* {data.Title2} */}
-                    </span>
-                    <span
-                        onClick={(e) => handleSetBookmark(e)}
-                        className='mt-1'
-                    >
-                        <Bookmark isBookmark={isBookmark} />
-                    </span>
-                </div>
+                <span
+                    onClick={(e) => handleSetBookmark(e)}
+                    className='flex justify-end'
+                >
+                    <Bookmark isBookmark={isBookmark} />
+                </span>
+                {/* <div className='flex justify-between space-x-5'> */}
+                <span className='text-white opacity-90 text-lg font-medium'>
+                    {data.Title}
+                    {/* {data.Title2} */}
+                </span>
+
+                {/* </div> */}
                 <span className='text-white opacity-80 text-sm text-left'>
                     {data.Summary}
                 </span>
@@ -71,7 +72,7 @@ export default function MangaPage({ data, id }) {
 
             <div className='px-6 mt-5'>
                 <input
-                    className='outline-none w-full bg-gray-700 p-4 border text-white rounded-lg'
+                    className='outline-none w-full bg-gray-700 p-4 border text-white rounded-xl'
                     placeholder='Search Chapter'
                     onChange={(e) => setSearchFilter(e.target.value)}
                 />
@@ -87,7 +88,7 @@ export default function MangaPage({ data, id }) {
                     }
                 })?.map((value, index) => (
                     <div
-                        className='rounded-lg bg-gray-700 p-4 text-white flex justify-start cursor-pointer'
+                        className='rounded-xl bg-gray-700 p-4 text-white flex justify-start cursor-pointer'
                         key={index}
                         onClick={() =>
                             router.push(`/r/${id[0]}/${id[1]}/${value.Id}`)
@@ -104,9 +105,9 @@ export default function MangaPage({ data, id }) {
 export async function getServerSideProps(context) {
 
     const { id } = context.params
-    let fetch = await MangameeApi.fetchDetail({source: id[0], mangaId: id[1]})
+    let fetch = await MangameeApi.fetchDetail({ source: id[0], mangaId: id[1] })
     return {
-        props: { data:fetch, id },
+        props: { data: fetch, id },
     }
 }
 

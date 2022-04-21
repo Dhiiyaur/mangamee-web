@@ -4,14 +4,18 @@ import { useEffect, useState } from 'react';
 import MangaCardSkeleton from '@/components/loading/MangaCardSkeleton';
 import MangameeApi from '@/lib/api';
 import SourceCard from '@/components/card/SourceCard';
-import { MangaSource } from '@/lib/helper';
+// import { MangaSource } from '@/lib/helper';
+
+
+
 
 export default function Home() {
+
     const [page, setPage] = useState(1);
     const [source, setSource] = useState(1);
     const [mangaData, setMangaData] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    const [mangaSource, setMangaSource] = useState([])
 
     const initPage = async () => {
         let fetch = await MangameeApi.fetchIndex({ source: source, page: page })
@@ -25,6 +29,11 @@ export default function Home() {
             setLoading(false);
         }
     };
+
+    useEffect(async() => {
+        let fetch = await MangameeApi.fetchSource()
+        setMangaSource(fetch)
+    }, [])
 
     useEffect(() => {
         setLoading(true)
@@ -40,7 +49,7 @@ export default function Home() {
         return (
             <Layout>
                 <div className='flex px-5 py-5 space-x-3'>
-                    {MangaSource.map((value, index) => (
+                    {mangaSource.map((value, index) => (
                         <SourceCard
                             key={index}
                             name={value.name}
@@ -57,7 +66,7 @@ export default function Home() {
     return (
         <Layout >
             <div className='flex px-5 py-5 space-x-3'>
-                {MangaSource.map((value, index) => (
+                {mangaSource.map((value, index) => (
                     <SourceCard
                         key={index}
                         name={value.name}
@@ -72,11 +81,18 @@ export default function Home() {
                     <MangaCard value={value} source={source} key={index} />
                 ))}
             </div>
-            <div
+            {/* <div
                 className='flex justify-center cursor-pointer items-center py-3 hover:bg-[#1a1a1a]'
                 onClick={() => setPage(page + 1)}
             >
                 <span className='text-white text-sm'>More</span>
+            </div> */}
+            <div className='flex justify-center items-center py-3'>
+                <button className='bg-red-300 px-5 py-2 rounded-2xl' onClick={() => setPage(page + 1)}>
+                    <span className='text-gray-900 text-sm'>
+                        More
+                    </span>
+                </button>
             </div>
         </Layout>
     );
