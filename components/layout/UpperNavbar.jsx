@@ -23,7 +23,7 @@ export default function UpperNavbar() {
 
     return (
         <>
-            <div className='flex z-20 space-x-5 text-center justify-between px-5 py-3.5 sticky top-0 bg-[#333335] border-b-[1px] border-b-[#9b9b9b]'>
+            <div className='flex z-20 space-x-5 text-center justify-between px-5 py-3.5 sticky top-0 bg-[#333335] shadow-md'>
                 <button
                     className='text-white cursor-pointer'
                     onClick={() => setOpenMenu(true)}
@@ -50,7 +50,7 @@ export default function UpperNavbar() {
                             </span>
                         </div>
                         <div className='flex flex-col space-y-3'>
-                            <span className='flex space-x-5 cursor-pointer'>
+                            <span className='flex space-x-5 cursor-pointer hover:bg-[#464646]'>
                                 <span
                                     className={`${currentRoute == 'home' && 'bg-green-200'
                                         } w-[1.5%]`}
@@ -69,7 +69,7 @@ export default function UpperNavbar() {
                                     </h3>
                                 </div>
                             </span>
-                            <span className='flex space-x-5 cursor-pointer'>
+                            <span className='flex space-x-5 cursor-pointer hover:bg-[#464646]'>
                                 <span
                                     className={`${currentRoute == 'search' &&
                                         'bg-green-200'
@@ -89,7 +89,7 @@ export default function UpperNavbar() {
                                     </h3>
                                 </div>
                             </span>
-                            <span className='flex space-x-5 cursor-pointer'>
+                            <span className='flex space-x-5 cursor-pointer hover:bg-[#464646]'>
                                 <span
                                     className={`${(currentRoute == 'm' || currentRoute == 'r' || currentRoute == '404') &&
                                         'bg-green-200'
@@ -108,7 +108,7 @@ export default function UpperNavbar() {
                                     </h3>
                                 </div>
                             </span>
-                            <span className='flex space-x-5 cursor-pointer'>
+                            <span className='flex space-x-5 cursor-pointer hover:bg-[#464646]'>
                                 <span
                                     className={`${currentRoute == 'bookmark' &&
                                         'bg-green-200'

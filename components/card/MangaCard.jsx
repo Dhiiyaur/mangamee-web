@@ -4,7 +4,7 @@ export default function MangaCard({ value, source }) {
     let router = useRouter();
     return (
         <div
-            className='w-full h-60 rounded-xl overflow-hidden cursor-pointer bg-black'
+            className='w-full h-60 sm:h-72 rounded-xl cursor-pointer overflow-hidden bg-black'
             onClick={() => router.push(`/m/${source}/${value.Id}`)}
         >
             <div>
@@ -12,7 +12,7 @@ export default function MangaCard({ value, source }) {
                     src={value.Cover}
                     // src={value.Covader}
                     alt=''
-                    className='w-full object-cover'
+                    className='w-[99.75%]'
                 />
             </div>
             <div className='sticky inset-0 h-full w-full bg-gradient-to-t from-black'>

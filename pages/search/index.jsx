@@ -21,7 +21,7 @@ export default function SearchPage() {
 
     const getManga = async () => {
         setLoading(true);
-        let fetch = await MangameeApi.fetchSearch({source:source, search:searchManga})
+        let fetch = await MangameeApi.fetchSearch({ source: source, search: searchManga })
         if (fetch.status == 200) {
             let res = await fetch.json()
             setMangaStore(res);
@@ -29,15 +29,15 @@ export default function SearchPage() {
         }
     };
 
-    useEffect(async() => {
+    useEffect(async () => {
         let fetch = await MangameeApi.fetchSource()
         setMangaSource(fetch)
     }, [])
 
     return (
         <Layout>
-            <div>
-                <div className='px-5 pt-10 flex justify-between space-x-3'>
+            <div className='px-5 pt-10 flex justify-center'>
+                <div className='justify-between space-x-3 flex w-full sm:w-[60%]'>
                     <div className='flex bg-[#2b2b2b] px-3 rounded-lg w-full border-2 border-[#9b9b9b]'>
                         <span className='text-white items-center flex'>
                             <IconContext.Provider value={{ size: 20 }}>
@@ -64,7 +64,7 @@ export default function SearchPage() {
             {loading ? (
                 <MangaCardSkeleton />
             ) : (
-                <div className='grid grid-cols-2 sm:grid-cols-4 gap-4 px-5 py-2 mt-8'>
+                <div className='grid grid-cols-2 sm:grid-cols-5 sm:gap-6 gap-4 px-5 py-2 sm:pt-10'>
                     {mangaStore?.map((value, index) => (
                         <MangaCard value={value} key={index} source={source} />
                     ))}
