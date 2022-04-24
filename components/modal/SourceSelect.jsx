@@ -30,29 +30,22 @@ export default function SourceSelect({
     return (
         <div ref={dropdown}>
             <div className='fixed z-30 w-full sm:w-[50%] h-2/3 bottom-0 inset-x-0 sm:left-[25%] rounded-t-2xl bg-[#2b2b2b]'>
-                <div className='flex justify-center mt-5'>
+                <div className='flex justify-center mt-5 sm:mt-8'>
                     <span className='w-[20%] border-b-[3px] rounded-lg'></span>
                 </div>
                 <div className='sm:p-10 p-8 mt-3'>
                     <span className='text-white text-lg'>
                         Source select
                     </span>
-                    <div className='flex flex-col mt-5'>
+                    <div className='flex flex-col mt-5 space-y-3'>
                         {mangaSource.map((value, index) => (
-                            <div
-                                key={index}
-                                className='flex py-2.5 items-center space-x-7 cursor-pointer'
-                                onClick={() =>
-                                    HandleSelectSource(value.id)
-                                }
+
+                            <div className='flex space-x-5 cursor-pointer hover:bg-[#464646]' 
+                                onClick={() => HandleSelectSource(value.id)}
+                                key={index}    
                             >
-                                <span
-                                    className={`h-5 w-5 rounded-full border-2 ${source == value.id
-                                            ? 'bg-[#5f85db]'
-                                            : 'bg-white'
-                                        }`}
-                                />
-                                <span className='text-white'>
+                                <span className={`${source == value.id ? 'bg-green-300' : ''} w-[0.5%] py-2.5`}></span>
+                                <span className={`${source == value.id ? '' : 'opacity-70' } py-2.5 text-white`}>
                                     {value.name}
                                 </span>
                             </div>
