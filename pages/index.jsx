@@ -7,8 +7,10 @@ import SourceCard from '@/components/card/SourceCard';
 
 export default function Home() {
 
+    const [init, setInit] = useState(true)
     const [page, setPage] = useState(1);
     const [source, setSource] = useState(1);
+
     const [mangaData, setMangaData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [mangaSource, setMangaSource] = useState([])
@@ -26,19 +28,26 @@ export default function Home() {
         }
     };
 
-    useEffect(async() => {
+    useEffect(async () => {
         let fetch = await MangameeApi.fetchSource()
         setMangaSource(fetch)
+        initPage()
+        setInit(false)
+        // eslint-disable-next-line
     }, [])
 
     useEffect(() => {
-        setLoading(true)
-        setMangaData([])
-        initPage()
+        if (!init) {
+            setLoading(true)
+            setMangaData([])
+            initPage()
+        }
     }, [source])
 
     useEffect(() => {
-        initPage();
+        if (!init) {
+            initPage();
+        }
     }, [page]);
 
     if (loading)

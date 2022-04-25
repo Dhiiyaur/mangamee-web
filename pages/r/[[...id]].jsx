@@ -5,16 +5,19 @@ import MangaReadSkeleton from '@/components/loading/MangaReadSkeleton'
 import useSWR from 'swr'
 import MangameeApi from '@/lib/api'
 import { Seo } from '@/components/Seo';
-import {useEffect} from 'react'
+import {useEffect, useRef, useMemo, createRef } from 'react'
 import BookmarkManager from '@/lib/store'
+import { useInView } from 'react-intersection-observer';
 
 export default function MangaRead({meta, id}) {
 
     const router = useRouter()
-
+    // const { ref, inView, entry } = useInView();
     const { data, error } = useSWR(id ? { source: id[0], mangaId: id[1], chapterId: id[2] } : null, MangameeApi.fetchImage)
     const { data: dataChapter, error: errorChapter } = useSWR(id ? { source: id[0], mangaId: id[1] } : null, MangameeApi.fetchChapter)
 
+    // const lineRef = useRef([])
+    // lineRef.current = data.map((_, i) => lineRef.current[i] ?? createRef());
 
     useEffect(() => {
         BookmarkManager.modifyBookmark({chapterId:id[2], mangaId: id[1], sourceId: id[0]})
