@@ -6,6 +6,7 @@ export const Seo = (props) => {
             <title>Mangamee</title>
             <meta charSet="utf-8" />
             <meta name="viewport" content="initial-scale=1.0, width=device-width" key="viewport" />
+            <link rel='manifest' href='/manifest.json' />
 
             {props ?
                 (
@@ -21,10 +22,10 @@ export const Seo = (props) => {
                     <>
                         <meta name="og:title" content="Mangamee" />
                         <meta name="og:description" content="" />
-                        <meta property="og:image" content="" />
+                        <meta property="og:image" content="https://mangamee.vercel.app/icons/cover.png" />
                         <meta name="twitter:title" content="Mangamee" />
                         <meta name="twitter:description" content="" />
-                        <meta property="twitter:image" content="" />
+                        <meta property="twitter:image" content="https://mangamee.vercel.app/icons/cover.png" />
                     </>
                 )
             }
