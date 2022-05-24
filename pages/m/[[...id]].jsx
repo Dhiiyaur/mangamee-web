@@ -5,24 +5,29 @@ import { useState, useEffect } from 'react';
 import Bookmark from '@/components/card/Bookmark';
 import { Seo } from '@/components/Seo';
 import BookmarkManager from '@/lib/store';
+import MangaReadSkeleton from '@/components/loading/MangaReadSkeleton';
+import MangaDetailSkeleton from '@/components/loading/MangaDetailSkeleton';
 
 export default function MangaPage({ data, id }) {
 
     let router = useRouter()
+    
     const [searchFilter, setSearchFilter] = useState('');
     const [isBookmark, setIsBookmark] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleSetBookmark = (e) => {
         e.preventDefault()
         BookmarkManager.setBookmark({ isBookmark: isBookmark, setIsBookmark: setIsBookmark, title: data.Title, cover: data.Cover, mangaId: id[1], sourceId: id[0] })
     }
 
-    useEffect(() => {
-        setIsBookmark(BookmarkManager.checkBookmark({ mangaId: id[1] }))
-    }, [])
+    const handleSkeletonLoading = () => {
+        setIsLoading(true)
+        window.scrollTo(0, 0);
+    }
 
-    return (
-        <Layout mobile={true}>
+    const MangaPage = (
+        <div>
             <Seo cover={data.Cover} desc={data.Title} />
             <div className='flex justify-center sm:mt-10'>
                 <div className='sm:w-[40%] w-full h-[500px]'>
@@ -79,6 +84,21 @@ export default function MangaPage({ data, id }) {
                     </div>
                 ))}
             </div>
+        </div>
+    )
+
+    useEffect(() => {
+        setIsBookmark(BookmarkManager.checkBookmark({ mangaId: id[1] }))
+    }, [])
+
+
+    useEffect(() => {
+        router.events.on("routeChangeStart", () => handleSkeletonLoading())
+    }, [router.events])
+
+    return (
+        <Layout mobile={true}>
+            {isLoading ? <MangaReadSkeleton /> : <div>{MangaPage}</div>}
         </Layout>
     );
 }
@@ -87,6 +107,7 @@ export async function getServerSideProps(context) {
 
     const { id } = context.params
     let fetch = await MangameeApi.fetchDetail({ source: id[0], mangaId: id[1] })
+    // if (fetch.status !== 200) return {redirect: { destination: "/404"}}
     return {
         props: { data: fetch, id },
     }

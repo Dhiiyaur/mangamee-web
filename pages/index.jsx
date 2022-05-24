@@ -1,11 +1,17 @@
 import MangaCard from '@/components/card/MangaCard';
 import Layout from '@/components/layout/Layout';
-import { useEffect, useState } from 'react';
-import MangaCardSkeleton from '@/components/loading/MangaCardSkeleton';
-import MangameeApi from '@/lib/api';
 import SourceCard from '@/components/card/SourceCard';
+import MangaCardSkeleton from '@/components/loading/MangaCardSkeleton';
+import MangaDetailSkeleton from '@/components/loading/MangaDetailSkeleton';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+
+import MangameeApi from '@/lib/api';
 
 export default function Home() {
+
+    let router = useRouter()
 
     const [init, setInit] = useState(true)
     const [page, setPage] = useState(1);
@@ -14,6 +20,8 @@ export default function Home() {
     const [mangaData, setMangaData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [mangaSource, setMangaSource] = useState([])
+
+    const [isSkeletonLoading, setIsSkeletonLoading] = useState(false)
 
     const initPage = async () => {
         let fetch = await MangameeApi.fetchIndex({ source: source, page: page })
@@ -28,48 +36,13 @@ export default function Home() {
         }
     };
 
-    useEffect(async () => {
-        let fetch = await MangameeApi.fetchSource()
-        setMangaSource(fetch)
-        initPage()
-        setInit(false)
-        // eslint-disable-next-line
-    }, [])
+    const handleSkeletonLoading = () => {
+        window.scrollTo(0, 0);
+        setIsSkeletonLoading(true)
+    }
 
-    useEffect(() => {
-        if (!init) {
-            setLoading(true)
-            setMangaData([])
-            initPage()
-        }
-    }, [source])
-
-    useEffect(() => {
-        if (!init) {
-            initPage();
-        }
-    }, [page]);
-
-    if (loading)
-        return (
-            <Layout>
-                <div className='flex px-5 py-5 space-x-3'>
-                    {mangaSource.map((value, index) => (
-                        <SourceCard
-                            key={index}
-                            name={value.name}
-                            source={source}
-                            setSource={setSource}
-                            sourceId={value.id}
-                        />
-                    ))}
-                </div>
-                <MangaCardSkeleton />
-            </Layout>
-        );
-
-    return (
-        <Layout >
+    const MangaPage = (
+        <div>
             <div className='flex px-5 py-5 space-x-3'>
                 {mangaSource.map((value, index) => (
                     <SourceCard
@@ -93,6 +66,56 @@ export default function Home() {
                     </span>
                 </button>
             </div>
+        </div>
+    )
+
+    useEffect(async () => {
+        let fetch = await MangameeApi.fetchSource()
+        setMangaSource(fetch)
+        initPage()
+        setInit(false)
+        // eslint-disable-next-line
+    }, [])
+
+    useEffect(() => {
+        if (!init) {
+            setLoading(true)
+            setMangaData([])
+            initPage()
+        }
+    }, [source])
+
+    useEffect(() => {
+        if (!init) {
+            initPage();
+        }
+    }, [page]);
+
+    useEffect(() => {
+        router.events.on("routeChangeStart", () => handleSkeletonLoading())
+    }, [router.events])
+
+    if (loading)
+        return (
+            <Layout>
+                <div className='flex px-5 py-5 space-x-3'>
+                    {mangaSource.map((value, index) => (
+                        <SourceCard
+                            key={index}
+                            name={value.name}
+                            source={source}
+                            setSource={setSource}
+                            sourceId={value.id}
+                        />
+                    ))}
+                </div>
+                <MangaCardSkeleton />
+            </Layout>
+        );
+
+    return (
+        <Layout >
+            {isSkeletonLoading ? <MangaDetailSkeleton /> : <div>{MangaPage}</div>}
         </Layout>
     );
 }
