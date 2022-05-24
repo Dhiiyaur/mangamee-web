@@ -1,15 +1,23 @@
 import Layout from '@/components/layout/Layout';
 import MangaCard from '@/components/card/MangaCard';
-import { useState, useEffect } from 'react';
-import MangameeApi from '@/lib/api';
 import MangaCardSkeleton from '@/components/loading/MangaCardSkeleton';
-import { FiSliders, FiSearch } from 'react-icons/fi';
-import { IconContext } from 'react-icons';
+import MangaDetailSkeleton from '@/components/loading/MangaDetailSkeleton';
 import SourceSelect from '@/components/modal/SourceSelect';
 
+import { FiSliders, FiSearch } from 'react-icons/fi';
+import { IconContext } from 'react-icons';
+import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
+import MangameeApi from '@/lib/api';
+
+
 export default function SearchPage() {
+
+    let router = useRouter()
+
     const [menuOpen, setMenuOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [isSkeletonLoading, setIsSkeletonLoading] = useState(false)
     const [source, setSource] = useState(1);
     const [searchManga, setSearchManga] = useState();
     const [mangaStore, setMangaStore] = useState([]);
@@ -29,13 +37,13 @@ export default function SearchPage() {
         }
     };
 
-    useEffect(async () => {
-        let fetch = await MangameeApi.fetchSource()
-        setMangaSource(fetch)
-    }, [])
+    const handleSkeletonLoading = () => {
+        setIsSkeletonLoading(true)
+        window.scrollTo(0, 0);
+    }
 
-    return (
-        <Layout>
+    const MangaPage = (
+        <div>
             <div className='px-5 pt-10 flex justify-center'>
                 <div className='justify-between space-x-3 flex w-full sm:w-[60%]'>
                     <div className='flex bg-[#2b2b2b] px-3 rounded-lg w-full border-2 border-[#9b9b9b]'>
@@ -81,6 +89,21 @@ export default function SearchPage() {
                     mangaSource={mangaSource}
                 />
             )}
+        </div>
+    )
+
+    useEffect(async () => {
+        let fetch = await MangameeApi.fetchSource()
+        setMangaSource(fetch)
+    }, [])
+
+    useEffect(() => {
+        router.events.on("routeChangeStart", () => handleSkeletonLoading())
+    }, [router.events])
+
+    return (
+        <Layout>
+            {isSkeletonLoading ? <MangaDetailSkeleton /> : <div>{MangaPage}</div>}
         </Layout>
     );
 }
