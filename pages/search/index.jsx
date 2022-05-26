@@ -37,8 +37,11 @@ export default function SearchPage() {
         }
     };
 
-    const handleSkeletonLoading = () => {
-        setIsSkeletonLoading(true)
+    const handleSkeletonLoading = (url) => {
+
+        if (url.split("/")[1] !== "search") {
+            setIsSkeletonLoading(true)
+        }
         window.scrollTo(0, 0);
     }
 
@@ -98,7 +101,7 @@ export default function SearchPage() {
     }, [])
 
     useEffect(() => {
-        router.events.on("routeChangeStart", () => handleSkeletonLoading())
+        router.events.on("routeChangeStart", handleSkeletonLoading)
     }, [router.events])
 
     return (
