@@ -6,7 +6,6 @@ import Bookmark from '@/components/card/Bookmark';
 import { Seo } from '@/components/Seo';
 import BookmarkManager from '@/lib/store';
 import MangaReadSkeleton from '@/components/loading/MangaReadSkeleton';
-import MangaDetailSkeleton from '@/components/loading/MangaDetailSkeleton';
 
 export default function MangaPage({ data, id }) {
 
@@ -93,7 +92,7 @@ export default function MangaPage({ data, id }) {
 
 
     useEffect(() => {
-        router.events.on("routeChangeStart", () => handleSkeletonLoading())
+        router.events.on("routeChangeStart", handleSkeletonLoading)
     }, [router.events])
 
     return (
@@ -107,7 +106,6 @@ export async function getServerSideProps(context) {
 
     const { id } = context.params
     let fetch = await MangameeApi.fetchDetail({ source: id[0], mangaId: id[1] })
-    // if (fetch.status !== 200) return {redirect: { destination: "/404"}}
     return {
         props: { data: fetch, id },
     }
