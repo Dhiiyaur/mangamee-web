@@ -22,6 +22,7 @@ export default function Home() {
     const [mangaSource, setMangaSource] = useState([])
 
     const [isSkeletonLoading, setIsSkeletonLoading] = useState(false)
+    const [loadingPath, setLoadingPath] = useState('')
 
     const initPage = async () => {
         let fetch = await MangameeApi.fetchIndex({ source: source, page: page })
@@ -36,7 +37,9 @@ export default function Home() {
         }
     };
 
-    const handleSkeletonLoading = () => {
+    const handleSkeletonLoading = (url) => {
+
+        setLoadingPath(url.split('/')[2])
         window.scrollTo(0, 0);
         setIsSkeletonLoading(true)
     }
@@ -92,7 +95,7 @@ export default function Home() {
     }, [page]);
 
     useEffect(() => {
-        router.events.on("routeChangeStart", () => handleSkeletonLoading())
+        router.events.on("routeChangeStart", handleSkeletonLoading)
     }, [router.events])
 
     if (loading)
@@ -115,7 +118,9 @@ export default function Home() {
 
     return (
         <Layout >
-            {isSkeletonLoading ? <MangaDetailSkeleton /> : <div>{MangaPage}</div>}
+            {isSkeletonLoading ? <>
+                {loadingPath !== 'search' && <MangaDetailSkeleton />}
+            </> : <div>{MangaPage}</div>}
         </Layout>
     );
 }
