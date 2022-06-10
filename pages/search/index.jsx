@@ -95,9 +95,13 @@ export default function SearchPage() {
         </div>
     )
 
-    useEffect(async () => {
-        let fetch = await MangameeApi.fetchSource()
-        setMangaSource(fetch)
+    useEffect(() => {
+        const fetchSource = async() => {
+            let fetch = await MangameeApi.fetchSource()
+            setMangaSource(fetch)
+        }
+        fetchSource()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {

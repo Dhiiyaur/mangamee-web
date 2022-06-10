@@ -88,6 +88,7 @@ export default function MangaPage({ data, id }) {
 
     useEffect(() => {
         setIsBookmark(BookmarkManager.checkBookmark({ mangaId: id[1] }))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 
