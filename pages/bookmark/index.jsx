@@ -29,6 +29,7 @@ export default function BookmarkPage() {
 
     useEffect(() => {
         initPage()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {

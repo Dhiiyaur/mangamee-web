@@ -72,12 +72,15 @@ export default function Home() {
         </div>
     )
 
-    useEffect(async () => {
-        let fetch = await MangameeApi.fetchSource()
-        setMangaSource(fetch)
-        initPage()
-        setInit(false)
-        // eslint-disable-next-line
+    useEffect(() => {
+        const fetchSource = async() => {
+            let fetch = await MangameeApi.fetchSource()
+            setMangaSource(fetch)
+            initPage()
+            setInit(false)
+        }
+        fetchSource()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
