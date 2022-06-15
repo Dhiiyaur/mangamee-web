@@ -8,7 +8,7 @@ import MangameeApi from '@/lib/api';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-export default function index({ dataSource, dataManga, query }) {
+export default function Index({ dataSource, dataManga, query }) {
 
     const router = useRouter()
 
