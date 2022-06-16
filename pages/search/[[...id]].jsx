@@ -11,39 +11,46 @@ import { useState, useEffect } from 'react';
 import MangameeApi from '@/lib/api';
 
 
-export default function SearchPage() {
+export default function Search({ dataManga, dataSource }) {
 
     let router = useRouter()
 
-    const [menuOpen, setMenuOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [isSkeletonLoading, setIsSkeletonLoading] = useState(false)
-    const [source, setSource] = useState(1);
+    const [init, setInit] = useState(true)
     const [searchManga, setSearchManga] = useState();
-    const [mangaStore, setMangaStore] = useState([]);
+    const [menuOpen, setMenuOpen] = useState(false);
+
     const [mangaSource, setMangaSource] = useState([])
+    const [mangaData, setMangaData] = useState([]);
+    const [source, setSource] = useState(1);
 
     const handleKeyDown = (e) => {
-        if (e.key === 'Enter') getManga();
+        if (e.key === 'Enter') handleGetManga();
     };
 
-    const getManga = async () => {
-        setLoading(true);
-        let fetch = await MangameeApi.fetchSearch({ source: source, search: searchManga })
-        if (fetch.status == 200) {
-            let res = await fetch.json()
-            setMangaStore(res);
-            setLoading(false);
-        }
-    };
-
-    const handleSkeletonLoading = (url) => {
-
-        if (url.split("/")[1] !== "search") {
-            setIsSkeletonLoading(true)
-        }
-        window.scrollTo(0, 0);
+    const handleGetManga = () => {
+        router.replace({
+            pathname: '/search',
+            query: { s: source, title: searchManga }
+        })
     }
+
+    useEffect(() => {
+        // console.log(dataSource, dataManga)
+        setMangaData(dataManga)
+        setMangaSource(dataSource)
+        setInit(false)
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    useEffect(() => {
+        if (!init) {
+            setMangaData(dataManga)
+        }
+        
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dataManga])
+
 
     const MangaPage = (
         <div>
@@ -72,7 +79,14 @@ export default function SearchPage() {
                     </button>
                 </div>
             </div>
-            {loading ? (
+
+            <div className='grid grid-cols-2 sm:grid-cols-5 sm:gap-6 gap-4 px-5 py-2 sm:pt-10'>
+                {mangaData?.map((value, index) => (
+                    <MangaCard value={value} key={index} source={source} />
+                ))}
+            </div>
+
+            {/* {loading ? (
                 <MangaCardSkeleton />
             ) : (
                 <div className='grid grid-cols-2 sm:grid-cols-5 sm:gap-6 gap-4 px-5 py-2 sm:pt-10'>
@@ -80,7 +94,7 @@ export default function SearchPage() {
                         <MangaCard value={value} key={index} source={source} />
                     ))}
                 </div>
-            )}
+            )} */}
 
             {menuOpen && (
                 <SourceSelect
@@ -88,29 +102,38 @@ export default function SearchPage() {
                     menuOpen={menuOpen}
                     source={source}
                     setSource={setSource}
-                    setMangaStore={setMangaStore}
+                    setMangaSource={setMangaSource}
                     mangaSource={mangaSource}
                 />
             )}
         </div>
     )
 
-    useEffect(() => {
-        const fetchSource = async() => {
-            let fetch = await MangameeApi.fetchSource()
-            setMangaSource(fetch)
-        }
-        fetchSource()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
-    useEffect(() => {
-        router.events.on("routeChangeStart", handleSkeletonLoading)
-    }, [router.events])
 
     return (
         <Layout>
-            {isSkeletonLoading ? <MangaDetailSkeleton /> : <div>{MangaPage}</div>}
-        </Layout>
-    );
+            {MangaPage}
+        </Layout>)
+}
+
+
+export async function getServerSideProps(context) {
+
+    const id = context.query
+    let fetchDataSource = await MangameeApi.fetchSource()
+    let resDataSource = await fetchDataSource.json()
+
+    if (id.s == undefined || id.title == undefined) {
+        return {
+            props: { dataSource: resDataSource, dataManga: null }
+        }
+    }
+
+    let fetchDataManga = await MangameeApi.fetchSearch({ source: id.s, search: id.title })
+    let resDataManga = await fetchDataManga.json()
+
+    return {
+        props: { dataSource: resDataSource, dataManga: resDataManga }
+    }
+
 }

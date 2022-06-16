@@ -5,14 +5,14 @@ export default function SourceSelect({
     menuOpen,
     source,
     setSource,
-    setMangaStore,
+    setMangaSource,
     mangaSource
 }) {
     const dropdown = useRef(null);
 
     const HandleSelectSource = (sourceId) => {
         setSource(sourceId);
-        setMangaStore([]);
+        setMangaSource([]);
         setMenuOpen(false);
     };
 

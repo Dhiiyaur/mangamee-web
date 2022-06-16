@@ -67,12 +67,13 @@ export default function Index({ dataSource, dataManga, query }) {
         const handleScroll = () => {
             setScrollY(window.scrollY);
         };
-        
+
         handleScroll();
         window.addEventListener("scroll", handleScroll);
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -80,6 +81,8 @@ export default function Index({ dataSource, dataManga, query }) {
         setMangaData(dataManga)
         setMangaSource(dataSource)
         setInit(false)
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
@@ -87,6 +90,8 @@ export default function Index({ dataSource, dataManga, query }) {
             window.scrollTo(0, scrollY)
             getMangaData()
         }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dataManga])
 
     useEffect(() => {
@@ -96,6 +101,8 @@ export default function Index({ dataSource, dataManga, query }) {
                 query: { s: source, p: page }
             })
         }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page, source])
 
 
@@ -109,13 +116,13 @@ export default function Index({ dataSource, dataManga, query }) {
 export async function getServerSideProps(context) {
 
     const id = context.query
+
+    let fetchDataSource = await MangameeApi.fetchSource()
+    let resDataSource = await fetchDataSource.json()
+
     if (id.p == undefined || id.s == undefined) {
         let fetchDataManga = await MangameeApi.fetchIndex({ source: 1, page: 1 })
         let resDataManga = await fetchDataManga.json()
-
-
-        let fetchDataSource = await MangameeApi.fetchSource()
-        let resDataSource = await fetchDataSource.json()
 
         return {
             props: { dataSource: resDataSource, dataManga: resDataManga, query: id },
@@ -124,9 +131,6 @@ export async function getServerSideProps(context) {
 
     let fetchDataManga = await MangameeApi.fetchIndex({ source: id.s, page: id.p })
     let resDataManga = await fetchDataManga.json()
-
-    let fetchDataSource = await MangameeApi.fetchSource()
-    let resDataSource = await fetchDataSource.json()
 
     return {
         props: { dataSource: resDataSource, dataManga: resDataManga, query: id },

@@ -40,11 +40,13 @@ export default function MangaRead({ meta, id, dataManga, dataChapter }) {
     useEffect(() => {
         setIsLoading(false)
         setData(dataManga)
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dataManga])
 
     useEffect(() => {
         BookmarkManager.modifyBookmark({ chapterId: id[2], mangaId: id[1], sourceId: id[0] })
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id[2]])
 
     useEffect(() => {
