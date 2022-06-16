@@ -35,7 +35,6 @@ export default function Search({ dataManga, dataSource }) {
     }
 
     useEffect(() => {
-        // console.log(dataSource, dataManga)
         setMangaData(dataManga)
         setMangaSource(dataSource)
         setInit(false)
@@ -46,8 +45,8 @@ export default function Search({ dataManga, dataSource }) {
     useEffect(() => {
         if (!init) {
             setMangaData(dataManga)
+            setMangaSource(dataSource)
         }
-        
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dataManga])
 
@@ -80,7 +79,7 @@ export default function Search({ dataManga, dataSource }) {
                 </div>
             </div>
 
-            <div className='grid grid-cols-2 sm:grid-cols-5 sm:gap-6 gap-4 px-5 py-2 sm:pt-10'>
+            <div className='grid grid-cols-2 sm:grid-cols-5 sm:gap-6 gap-4 px-5 py-2 sm:pt-10 pt-5'>
                 {mangaData?.map((value, index) => (
                     <MangaCard value={value} key={index} source={source} />
                 ))}
