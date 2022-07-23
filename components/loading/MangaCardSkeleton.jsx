@@ -23,10 +23,10 @@ export default function MangaCardSkeleton() {
                             />
                         </svg>
 
-                        <div className='flex flex-col w-full items-center space-y-3'>
+                        {/* <div className='flex flex-col w-full items-center space-y-3'>
                             <span className='bg-gray-700 p-3 w-[85%] rounded-md' />
                             <span className='bg-gray-700 p-2 w-[60%] rounded-md' />
-                        </div>
+                        </div> */}
                     </div>
                 ))}
         </div>

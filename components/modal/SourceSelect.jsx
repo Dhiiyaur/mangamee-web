@@ -1,19 +1,22 @@
 import { useRef, useEffect } from 'react';
+import { FiCheck } from "react-icons/fi";
+import { IconContext } from "react-icons";
+
 
 export default function SourceSelect({
     setMenuOpen,
     menuOpen,
-    source,
-    setSource,
-    setMangaStore,
-    mangaSource
+    mangaSourceSelected,
+    setMangaSourceSelected,
+    mangaSource,
+    setMangaData
+
 }) {
     const dropdown = useRef(null);
 
-    const HandleSelectSource = (sourceId) => {
-        setSource(sourceId);
-        setMangaStore([]);
-        setMenuOpen(false);
+    const handleSelectSource = (sourceId) => {
+        setMangaSourceSelected(sourceId);
+        setMangaData([])
     };
 
     useEffect(() => {
@@ -28,29 +31,29 @@ export default function SourceSelect({
     }, [menuOpen, setMenuOpen]);
 
     return (
-        <div ref={dropdown}>
-            <div className='fixed z-30 w-full sm:w-[50%] h-2/3 bottom-0 inset-x-0 sm:left-[25%] rounded-t-2xl bg-[#2b2b2b]'>
+        <div ref={dropdown} className='fixed bottom-0 inset-x-0 h-[40%] sm:h-[45%] w-full flex justify-center z-[2]'>
+            <div className='w-full rounded-t-xl bg-[#181818] sm:w-[50%]'>
                 <div className='flex justify-center mt-5 sm:mt-8'>
-                    <span className='w-[20%] border-b-[3px] rounded-lg'></span>
+                    <span className='w-[20%] border-b-[6px] rounded-lg' />
                 </div>
-                <div className='sm:p-10 p-8 mt-3'>
-                    <span className='text-white text-lg'>
-                        Source select
-                    </span>
-                    <div className='flex flex-col mt-5 space-y-3'>
-                        {mangaSource.map((value, index) => (
+                <div className='sm:p-10 p-8 flex flex-col space-y-5'>
+                    <p className='text-white font-light'>
+                        Select your manga source
+                    </p>
 
-                            <div className='flex space-x-5 cursor-pointer hover:bg-[#464646]' 
-                                onClick={() => HandleSelectSource(value.id)}
-                                key={index}    
-                            >
-                                <span className={`${source == value.id ? 'bg-green-300' : ''} w-[0.5%] py-2.5`}></span>
-                                <span className={`${source == value.id ? '' : 'opacity-70' } py-2.5 text-white`}>
-                                    {value.name}
-                                </span>
+                    {mangaSource.map((value, index) => (
+
+                        <div className='flex justify-between' key={index}
+                            onClick={() => handleSelectSource(value.id)}
+                        >
+                            <p className='text-white text-lg font-semibold'>{value.name}</p>
+                            <div className={`${mangaSourceSelected == value.id ? "text-white" : "hidden"}`}>
+                                <IconContext.Provider value={{ size: 25 }}>
+                                    <FiCheck />
+                                </IconContext.Provider>
                             </div>
-                        ))}
-                    </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>

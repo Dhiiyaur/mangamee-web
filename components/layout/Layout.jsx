@@ -1,12 +1,11 @@
-import UpperNavbar from '@/components/layout/UpperNavbar';
+import Navbar from './Navbar';
 
 export default function Layout({ children, mobile }) {
     return (
         <>
-            <UpperNavbar />
-            {/* <div className='min-h-screen bg-[#1a1a1a] flex justify-center'> */}
-            <div className='min-h-screen bg-[#333335] flex justify-center'>
-                <div className={`w-full ${mobile ? 'sm:w-[50%]' : 'sm:w-[85%]'}`}>{children}</div>
+            <Navbar />
+            <div className='min-h-screen bg-[#1E1E1E] flex justify-center'>
+                <div className='w-full'>{children}</div>
             </div>
         </>
     );

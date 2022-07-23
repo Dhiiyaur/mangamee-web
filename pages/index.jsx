@@ -2,128 +2,89 @@ import MangaCard from '@/components/card/MangaCard';
 import Layout from '@/components/layout/Layout';
 import SourceCard from '@/components/card/SourceCard';
 import MangaCardSkeleton from '@/components/loading/MangaCardSkeleton';
-import MangaDetailSkeleton from '@/components/loading/MangaDetailSkeleton';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 
 import MangameeApi from '@/lib/api';
+import CustomFetch from '@/components/hook/CustomFetch';
 
-export default function Home() {
+export default function Home({ initData, sourceData }) {
 
-    let router = useRouter()
-
-    const [init, setInit] = useState(true)
     const [page, setPage] = useState(1);
     const [source, setSource] = useState(1);
+    const { loading, error, data } = CustomFetch(source, page, initData)
 
-    const [mangaData, setMangaData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [mangaSource, setMangaSource] = useState([])
+    const SourceSection = (
+        <>
 
-    const [isSkeletonLoading, setIsSkeletonLoading] = useState(false)
-    const [loadingPath, setLoadingPath] = useState('')
+            <div className='sticky top-0 sm:top-12 w-full flex justify-center py-4 z-10 bg-[#1E1E1E]'>
+                <div className='flex justify-between w-[68%] sm:w-[25%]'>
+                    {sourceData.map((value, index) => (
+                        <SourceCard
+                            key={index}
+                            setPage={setPage}
+                            setSource={setSource}
+                            source={source}
+                            value={value}
 
-    const initPage = async () => {
-        let fetch = await MangameeApi.fetchIndex({ source: source, page: page })
-        if (fetch.status == 200) {
-            let res = await fetch.json()
-            if (page == 1) {
-                setMangaData(res);
-            } else {
-                setMangaData((prev) => [...prev, ...res]);
+                        />
+                    ))}
+                </div>
+            </div>
+        </>
+    )
+
+    const MangaSection = (
+        <div className='flex justify-center sm:mt-12'>
+            {loading ? (
+                <div className='w-full sm:w-[80%]'>
+                    <MangaCardSkeleton />
+                </div>
+            ) :
+                <div className='grid grid-cols-2 sm:grid-cols-5 pb-[68px] gap-5 px-5 pt-3 w-full sm:w-[80%]'
+                >
+                    {data.map((value, index) => (
+                        <MangaCard
+                            key={index}
+                            value={value}
+                            source={source}
+                        />
+                    ))}
+                </div>
             }
-            setLoading(false);
-        }
-    };
-
-    const handleSkeletonLoading = (url) => {
-
-        setLoadingPath(url.split('/')[2])
-        window.scrollTo(0, 0);
-        setIsSkeletonLoading(true)
-    }
-
-    const MangaPage = (
-        <div>
-            <div className='flex px-5 py-5 space-x-3'>
-                {mangaSource.map((value, index) => (
-                    <SourceCard
-                        key={index}
-                        name={value.name}
-                        source={source}
-                        setSource={setSource}
-                        sourceId={value.id}
-                    />
-                ))}
-            </div>
-            <div className='grid grid-cols-2 sm:grid-cols-5 sm:gap-6 gap-4 px-5 py-2'>
-                {mangaData?.map((value, index) => (
-                    <MangaCard value={value} source={source} key={index} />
-                ))}
-            </div>
-            <div className='flex justify-center items-center py-3'>
-                <button className='bg-white px-5 py-2 rounded-xl opacity-80' onClick={() => setPage(page + 1)}>
-                    <span className='text-gray-900 text-sm'>
-                        More
-                    </span>
-                </button>
-            </div>
         </div>
     )
 
     useEffect(() => {
-        const fetchSource = async() => {
-            let fetch = await MangameeApi.fetchSource()
-            setMangaSource(fetch)
-            initPage()
-            setInit(false)
-        }
-        fetchSource()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
-    useEffect(() => {
-        if (!init) {
-            setLoading(true)
-            setMangaData([])
-            initPage()
-        }
-    }, [source])
-
-    useEffect(() => {
-        if (!init) {
-            initPage();
-        }
-    }, [page]);
-
-    useEffect(() => {
-        router.events.on("routeChangeStart", handleSkeletonLoading)
-    }, [router.events])
-
-    if (loading)
-        return (
-            <Layout>
-                <div className='flex px-5 py-5 space-x-3'>
-                    {mangaSource.map((value, index) => (
-                        <SourceCard
-                            key={index}
-                            name={value.name}
-                            source={source}
-                            setSource={setSource}
-                            sourceId={value.id}
-                        />
-                    ))}
-                </div>
-                <MangaCardSkeleton />
-            </Layout>
-        );
+    const handleScroll = () => {
+        if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) return;
+        setPage((prev) => prev + 1)
+    }
 
     return (
-        <Layout >
-            {isSkeletonLoading ? <>
-                {loadingPath !== 'search' && <MangaDetailSkeleton />}
-            </> : <div>{MangaPage}</div>}
+        <Layout>
+            {SourceSection}
+            {MangaSection}
         </Layout>
-    );
+    )
+}
+
+
+
+export async function getServerSideProps(context) {
+
+    let fetchMangaData = await MangameeApi.fetchIndex(1, 1)
+    let resFetchMangaData = await fetchMangaData.json()
+
+    let fetchSourceData = await MangameeApi.fetchSource()
+    let resFetchSourceData = await fetchSourceData.json()
+
+    return {
+        props: { initData: resFetchMangaData.data, sourceData: resFetchSourceData.data },
+    }
+
 }

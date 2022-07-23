@@ -1,7 +1,12 @@
-export default function SourceCard({source, setSource, name, sourceId}) {
+export default function SourceCard({setPage, setSource, source, value}) {
     return (
-        <button className={`${sourceId == source ? "bg-white text-gray-800 rounded-xl" : "text-white opacity-60 hover:bg-white hover:rounded-xl hover:text-gray-800 hover:opacity-50"} text-sm  py-2 px-3 opacity-90 `} onClick={() => setSource(sourceId)}>
-            {name}
+        <button className='flex flex-col space-y-0.5' onClick={() => {
+            setPage(1)
+            setSource(value.id)
+        }}>
+            <p className='text-white text-xs font-medium'>{value.name}</p>
+            <p className={`${source == value.id ? "w-full bg-white h-1 rounded-xl" : "block"}`} />
+
         </button>
     )
 }

@@ -1,75 +1,121 @@
 import Layout from '@/components/layout/Layout'
-import BottomNavbar from '@/components/layout/BottomNavbar'
 import { useRouter } from 'next/router'
 import MangameeApi from '@/lib/api'
 import { Seo } from '@/components/Seo';
-import { useEffect, useState } from 'react'
-import BookmarkManager from '@/lib/store'
+import { useCallback, useEffect, useState } from 'react'
+import {BookmarkManager} from '@/lib/store'
 import MangaReadSkeleton from '@/components/loading/MangaReadSkeleton';
+import MediaBar from '@/components/layout/MediaBar';
+import { FindIndex } from '@/lib/helper';
 
 
-export default function MangaRead({ meta, id, dataManga, dataChapter }) {
+export default function ReadPage({ meta, id }) {
 
-    const [data, setData] = useState([])
     const router = useRouter()
-    const [isLoading, setIsLoading] = useState(false)
+    const [currentIndexChapter, setCurrentIndexChapter] = useState()
+    const [dataImage, setDataImage] = useState([])
+    const [dataChapter, setDataChapter] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
+    const [lastScroll, setLastScroll] = useState()
+    const [openMediaBar, setOpenMediaBar] = useState(true)
 
-    const MangaPage = (
+    const MangaSection = (
         <>
-            <Seo cover={meta.Cover} desc={meta.Title} />
-            <div className='pb-12 flex flex-col justify-center'>
-                {data?.Images?.map((value, index) => (
+        <div className='pb-[100px] sm:pb-0 flex justify-center'>
+            <div className='sm:w-[50%] flex flex-col'>
+                {dataImage?.Images?.map((value, index) => (
                     <img
                         key={index}
                         src={value.Image}
-                        // src={value.Cover}
                         alt=''
                         loading="lazy"
                     />
                 ))}
             </div>
-            <BottomNavbar dataChapter={dataChapter} currentChapter={id[2]} mangaId={id[1]} sourceId={id[0]} />
+        </div>
+            {openMediaBar &&
+                <MediaBar
+                    dataChapter={dataChapter}
+                    currentIndexChapter={currentIndexChapter}
+                    sourceId={id[0]}
+                    mangaId={id[1]}
+                    setDataImage={setDataImage}
+                />
+            }
         </>
     )
-    const handleSkeletonLoading = () => {
+
+    const controlMediaBar = useCallback(() => {
+        if (window.scrollY > lastScroll) {
+            setOpenMediaBar(false)
+        } else {
+            setOpenMediaBar(true)
+        }
+        setLastScroll(window.scrollY)
+    }, [lastScroll])
+
+    useEffect(() => {
+        window.addEventListener("scroll", controlMediaBar)
+        return () => {
+            window.removeEventListener("scroll", controlMediaBar)
+        }
+    }, [controlMediaBar])
+
+    useEffect(() => {
+        BookmarkManager.modifyBookmark(id[0], id[1], id[2])
+    }, [id])
+
+    useEffect(() => {
+
         setIsLoading(true)
-        setData([])
-        window.scrollTo(0, 0);
-    }
+        setDataImage([])
 
-    useEffect(() => {
+        const fetchImage = async () => {
+            let fetch = await MangameeApi.fetchImage(id[0],id[1],id[2])
+            if (fetch.status !== 200) {
+                router.push("/404")
+            }
+            let res = await fetch.json()
+            setDataImage(res.data)
+        }
+
+        const fetchChapter = async () => {
+            let fetch = await MangameeApi.fetchChapter(id[0], id[1])
+            if (fetch.status !== 200) {
+                router.push("/404")
+            }
+            let res = await fetch.json()
+            setDataChapter(res.data.Chapters)
+            setCurrentIndexChapter(FindIndex(res.data.Chapters, id[2]))
+        }
+
+        fetchImage()
+        fetchChapter()
         setIsLoading(false)
-        setData(dataManga)
 
-    }, [dataManga])
-
-    useEffect(() => {
-        BookmarkManager.modifyBookmark({ chapterId: id[2], mangaId: id[1], sourceId: id[0] })
-    }, [id[2]])
-
-    useEffect(() => {
-        router.events.on("routeChangeStart", handleSkeletonLoading)
-    }, [router.events])
-
+    }, [id])
 
     return (
-        <Layout mobile={true}>
-            {isLoading ? <MangaReadSkeleton /> : <>{MangaPage}</>}
+        <Layout>
+            <Seo cover={meta.Cover} desc={meta.Title} />
+            {isLoading ? <MangaReadSkeleton /> : <>{MangaSection}</>}
         </Layout>
     )
 }
 
+
 export async function getServerSideProps(context) {
 
     const { id } = context.params
-    let fetchMeta = await MangameeApi.fetchMeta({ source: id[0], mangaId: id[1] })
-    let fetchMangaImage = await MangameeApi.fetchImage({ source: id[0], mangaId: id[1], chapterId: id[2] })
-    let fetchChapter = await MangameeApi.fetchChapter({ source: id[0], mangaId: id[1] })
-
+    let fetchMeta = await MangameeApi.fetchMeta(id[0], id[1])
     let resMeta = await fetchMeta.json()
 
+    context.res.setHeader(
+        'Cache-Control',
+        'public, s-maxage=120'
+    )
     return {
-        props: { meta: resMeta, id: id, dataManga: fetchMangaImage, dataChapter: fetchChapter },
+        props: { meta: resMeta.data, id: id },
     }
 
 }
