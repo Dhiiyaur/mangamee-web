@@ -57,11 +57,12 @@ export default function Home({ initData, sourceData }) {
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll)
-        window.addEventListener('touchmove', handleScroll)
-        return () => {
-            window.removeEventListener('scroll', handleScroll)
-            window.addEventListener('touchmove', handleScroll)
-        }
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, []);
+
+    useEffect(() => {
+        window.addEventListener('touchend', handleScroll)
+        return () => window.removeEventListener('touchend', handleScroll)
     }, []);
 
     const handleScroll = () => {
