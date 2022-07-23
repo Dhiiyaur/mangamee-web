@@ -4,110 +4,134 @@ import MangameeApi from '@/lib/api';
 import { useState, useEffect } from 'react';
 import Bookmark from '@/components/card/Bookmark';
 import { Seo } from '@/components/Seo';
-import BookmarkManager from '@/lib/store';
-import MangaReadSkeleton from '@/components/loading/MangaReadSkeleton';
+import { BookmarkManager } from '@/lib/store';
+
+import { IconContext } from 'react-icons';
+import { FiShare2 } from 'react-icons/fi';
+
 
 export default function MangaPage({ data, id }) {
 
     let router = useRouter()
-    
-    const [searchFilter, setSearchFilter] = useState('');
     const [isBookmark, setIsBookmark] = useState(false);
-    const [isLoading, setIsLoading] = useState(false)
+    const [searchFilter, setSearchFilter] = useState('');
 
-    const handleSetBookmark = (e) => {
-        e.preventDefault()
-        BookmarkManager.setBookmark({ isBookmark: isBookmark, setIsBookmark: setIsBookmark, title: data.Title, cover: data.Cover, mangaId: id[1], sourceId: id[0] })
+    const handleBookmark = (e) => {
+        e.stopPropagation()
+        if (isBookmark) {
+            BookmarkManager.removeBookmark(id[1])
+            setIsBookmark(false)
+        } else {
+            BookmarkManager.addBookmark(id[0], id[1], data.Title, data.Cover)
+            setIsBookmark(true)
+        }
     }
 
-    const handleSkeletonLoading = () => {
-        setIsLoading(true)
-        window.scrollTo(0, 0);
-    }
-
-    const MangaPage = (
-        <div>
-            <Seo cover={data.Cover} desc={data.Title} />
-            <div className='flex justify-center sm:mt-10'>
-                <div className='sm:w-[40%] w-full h-[500px]'>
-                    <img
-                        src={data.Cover}
-                        // src={data.Cover123}
-                        alt=''
-                        className='w-full h-[500px] object-cover'
-                    />
-                </div>
-            </div>
-
-            <div className='flex flex-col p-8 space-y-2.5'>
-                <span
-                    onClick={(e) => handleSetBookmark(e)}
-                    className='flex justify-end'
-                >
-                    <Bookmark isBookmark={isBookmark} />
-                </span>
-                <span className='text-white opacity-90 text-lg font-medium'>
-                    {data.Title}
-                    {/* {data.Title2} */}
-                </span>
-                <span className='text-white opacity-80 text-sm text-left'>
-                    {data.Summary}
-                </span>
-            </div>
-
-            <div className='px-6 mt-5'>
-                <input
-                    className='outline-none w-full bg-gray-700 p-4 border-[1.5px] text-white rounded-xl'
-                    placeholder='Search Chapter'
-                    onChange={(e) => setSearchFilter(e.target.value)}
-                />
-            </div>
-            <div className='flex flex-col space-y-3.5 p-6'>
-                {data?.Chapters?.filter((item) => {
-                    if (
-                        item.Name.toLowerCase().includes(
-                            searchFilter.toLocaleLowerCase()
-                        )
-                    ) {
-                        return item;
-                    }
-                })?.map((value, index) => (
-                    <div
-                        className='rounded-xl bg-gray-700 p-4 px-6 text-white flex justify-start cursor-pointer'
-                        key={index}
-                        onClick={() =>
-                            router.push(`/r/${id[0]}/${id[1]}/${value.Id}`)
-                        }
-                    >
-                        {value.Name}
-                    </div>
-                ))}
-            </div>
-        </div>
-    )
-
     useEffect(() => {
-        setIsBookmark(BookmarkManager.checkBookmark({ mangaId: id[1] }))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
-
-    useEffect(() => {
-        router.events.on("routeChangeStart", handleSkeletonLoading)
-    }, [router.events])
+        setIsBookmark(BookmarkManager.checkBookmark(id[1]))
+    }, [isBookmark])
 
     return (
-        <Layout mobile={true}>
-            {isLoading ? <MangaReadSkeleton /> : <div>{MangaPage}</div>}
+        <Layout>
+            <Seo cover={data.Cover} desc={data.Title} />
+            <div>
+                <div className='flex justify-center'>
+                    <div className='sm:w-[45%] sm:pt-10 w-full h-[500px] sm:h-full'>
+                        <img
+                            src={data.Cover}
+                            alt=''
+                            className='w-full h-[500px] sm:h-full object-cover'
+                        />
+                    </div>
+                </div>
+
+                <div className='flex justify-center sm:pt-10'>
+                    <div className='p-5 flex flex-col space-y-8 sm:w-[55%]'>
+                        <div className='flex justify-between space-x-3'>
+                            <div>
+                                <p className='text-white font-medium'>
+                                    {data.Title}
+                                </p>
+                            </div>
+                            <div className='flex space-x-5 pt-2'>
+                                <div className='text-white'>
+                                    <IconContext.Provider value={{ size: 25 }}>
+                                        <FiShare2 />
+                                    </IconContext.Provider>
+                                </div>
+
+                                <div
+                                    onClick={(e) => handleBookmark(e)}
+                                >
+                                    <Bookmark isBookmark={isBookmark} />
+                                </div>
+                            </div>
+                        </div>
+                        <div className='flex flex-col space-y-2'>
+                            <p className='text-white text-sm'>Summary</p>
+                            <p className='text-white text-sm font-light'>{data.Summary}</p>
+                        </div>
+                    </div>
+                </div>
+                <div className='flex justify-center sticky top-0 sm:top-12 bg-[#1E1E1E]'>
+                    <div className='flex flex-col pt-2 w-full sm:w-[55%]'>
+                        <div className='px-5 py-2.5'>
+                            <input
+                                className='outline-none bg-[#2b2b2b] p-4 text-white text-sm w-full rounded-xl'
+                                placeholder='Search Chapter'
+                                onChange={(e) => setSearchFilter(e.target.value)}
+                            />
+                            <div className='flex justify-center pt-4'>
+                                <span className='w-[20%] border-b-[5px] rounded-lg' />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className='flex justify-center'>
+                <div className='px-5 py-3 flex flex-col pb-[68px] sm:w-[55%] w-full'>
+                    <div className='flex flex-col space-y-3.5'>
+                        {data?.Chapters?.filter((item) => {
+                            if (
+                                item.Name.toLowerCase().includes(
+                                    searchFilter.toLocaleLowerCase()
+                                )
+                            ) {
+                                return item;
+                            }
+                        })?.map((value, index) => (
+                            <div
+                                className='rounded-xl bg-[#2b2b2b] p-4 px-6 text-white flex justify-start cursor-pointer'
+                                key={index}
+                                onClick={() =>
+                                    router.push(`/r/${id[0]}/${id[1]}/${value.Id}`)
+                                }
+                            >
+                                {value.Name}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                </div>
+            </div>
         </Layout>
-    );
+    )
 }
+
 
 export async function getServerSideProps(context) {
 
     const { id } = context.params
-    let fetch = await MangameeApi.fetchDetail({ source: id[0], mangaId: id[1] })
+    let fetch = await MangameeApi.fetchDetail(id[0], id[1])
+    let res = await fetch.json()
+    if (res.code !== 200) {
+        return {
+            redirect: {
+                destination: '/404',
+            },
+        }
+    }
     return {
-        props: { data: fetch, id },
+        props: { data: res.data, id },
     }
 }

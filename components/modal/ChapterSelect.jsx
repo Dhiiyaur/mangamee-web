@@ -1,17 +1,11 @@
 import { useRouter } from 'next/router';
 import { useRef, useEffect, useState } from 'react';
 
-export default function ChapterSelect({
-    chapters,
-    openChapters,
-    setOpenChapters,
-    chapterName,
-    mangaId,
-    sourceId,
-}) {
-    let router = useRouter();
-    const [searchFilter, setSearchFilter] = useState('');
+export default function ChapterSelect({ setOpenChapters, openChapters, dataChapter, currentIndexChapter, sourceId, mangaId }) {
+
+    let router = useRouter()
     const dropdown = useRef(null);
+    const [searchFilter, setSearchFilter] = useState('');
 
     useEffect(() => {
         if (!openChapters) return;
@@ -25,25 +19,21 @@ export default function ChapterSelect({
     }, [openChapters, setOpenChapters]);
 
     return (
-        <div ref={dropdown}>
-            <div className='fixed z-30 w-full sm:w-[50%] h-2/3 bottom-0 inset-x-0 sm:left-[25%] rounded-t-2xl bg-[#2b2b2b]'>
-                <div className='flex justify-center mt-5'>
-                    <span className='w-[20%] border-b-[3px] rounded-lg' />
+        <div ref={dropdown} className='z-[2] fixed w-full bottom-0 inset-x-0 h-[60%] sm:h-[80%] flex justify-center'>
+             <div className='w-full rounded-t-xl bg-[#181818] sm:w-[50%]'>
+                <div className='flex justify-center mt-5 sm:mt-8'>
+                    <span className='w-[20%] border-b-[6px] rounded-lg' />
                 </div>
-
-                <div className='px-6 mt-6 pb-5'>
+                <div className='px-5 py-3'>
                     <input
-                        className='outline-none w-full bg-[#2b2b2b] p-3 text-white rounded-xl text-sm border-white border-[1.5px]'
+                        className='outline-none bg-[#2b2b2b] p-4 text-white text-sm w-full rounded-xl'
                         placeholder='Search Chapter'
                         onChange={(e) => setSearchFilter(e.target.value)}
                     />
                 </div>
-
-                {/* scroll nih */}
-
-                <div className='overflow-y-scroll absolute h-full w-full mt- pb-28'>
-                    {chapters
-                        .filter((item) => {
+                <div className='overflow-y-scroll absolute h-full w-full sm:w-[50%] pb-48 px-5 py-5'>
+                    <div className='flex flex-col space-y-3.5'>
+                        {dataChapter?.filter((item) => {
                             if (
                                 item.Name.toLowerCase().includes(
                                     searchFilter.toLocaleLowerCase()
@@ -51,11 +41,10 @@ export default function ChapterSelect({
                             ) {
                                 return item;
                             }
-                        })
-                        ?.map((value, index) => (
+                        })?.map((value, index) => (
                             <div
+                                className={`${dataChapter[currentIndexChapter].Id == value.Id ? "bg-[#8CBE6D]" : "bg-[#2b2b2b]"} rounded-xl bg-[#2b2b2b] p-4 px-6 text-white flex justify-start cursor-pointer`}
                                 key={index}
-                                className='flex cursor-pointer'
                                 onClick={() => {
                                     router.push(
                                         `/r/${sourceId}/${mangaId}/${value.Id}`
@@ -63,19 +52,12 @@ export default function ChapterSelect({
                                     setOpenChapters(false);
                                 }}
                             >
-                                <span
-                                    className={`${chapterName == value.Name &&
-                                        'bg-green-500'
-                                        } w-[1.5%] sm:w-[0.5%]`}
-                                />
-                                <span className='text-white px-7 py-3'>
-                                    {value.Name}
-                                </span>
+                                Chapter {value.Name}
                             </div>
                         ))}
+                    </div>
                 </div>
             </div>
         </div>
-
-    );
+    )
 }

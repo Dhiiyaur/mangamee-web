@@ -1,34 +1,61 @@
 import { useRouter } from 'next/router';
+import { BookmarkManager } from '@/lib/store';
+import { useEffect, useState } from 'react';
+import Bookmark from './Bookmark';
 
 export default function MangaCard({ value, source }) {
+
     let router = useRouter();
+    const [isBookmark, setIsBookmark] = useState(false)
+
+    const handleBookmark = (e) => {
+        e.stopPropagation()
+        if (isBookmark) {
+            BookmarkManager.removeBookmark(value.Id)
+            setIsBookmark(false)
+            if (!source){
+                router.reload()
+            }
+        } else {
+            BookmarkManager.addBookmark(source, value.Id, value.Title, value.Cover)
+            setIsBookmark(true)
+        }
+    }
+
+    useEffect(() => {
+        setIsBookmark(BookmarkManager.checkBookmark(value.Id))
+    }, [isBookmark])
+
     return (
-        <div className='h-60 sm:h-72 rounded-xl overflow-hidden cursor-pointer'
-            onClick={() => router.push(`/m/${source}/${value.Id}`)}
+        <div className='flex flex-col space-y-2 cursor-pointer'
+            onClick={() => {
+                router.push(`/m/${source ? source : value.Source}/${value.Id}`)
+            }}
         >
-            <img src={value.Cover} alt="" className='h-60 sm:h-72 object-fill w-full rounded-xl'></img>
-            <div className='sticky inset-0 h-full w-full bg-gradient-to-t from-black'>
-                <div className='sticky top-[75%]'>
-                    <div className='flex flex-col space-y-1.5 p-3 justify-end'>
-                        <span className='text-white text-xs capitalize line-clamp-2 font-medium'>
-                            {value.Title}
-                        </span>
-
-                        {value.LastChapter &&
-                            <span className='text-white opacity-80 text-xs lowercase truncate'>
-                                last chapter {value.LastChapter}
-                            </span>
-                        }
-
-                        {value.Chapter &&
-                            <span className='text-white opacity-80 text-xs lowercase truncate'>
-                                last read : {value.Chapter}
-                            </span>
-                        }
+            <div className='relative h-56 sm:h-72'>
+                <div className='h-56 sm:h-72 absolute inset-0 bg-gradient-to-t from-black bg-opacity-40 rounded-xl'>
+                    <div className='absolute right-0 bottom-2 px-5 py-3'
+                        onClick={(e) => handleBookmark(e)}
+                    >
+                        <Bookmark isBookmark={isBookmark} />
                     </div>
                 </div>
+                <img src={value.Cover} className='rounded-xl h-56 sm:h-72 w-full' />
+            </div>
+            <div className='flex flex-col space-y-1'>
+                <p className='text-white text-xs capitalize line-clamp-2 font-semibold'>{value.Title}</p>
+                {value.LastChapter &&
+                    <p className='text-white opacity-80 text-xs font-thin sm:font-normal truncate'>
+                        Last chapter {value.LastChapter}
+                    </p>
+                }
+                {value.Chapter &&
+                    <p className='text-white opacity-80 text-xs font-thin sm:font-normal truncate'>
+                        Last read : {value.Chapter}
+                    </p>
+                }
+
             </div>
         </div>
     )
 }
-
