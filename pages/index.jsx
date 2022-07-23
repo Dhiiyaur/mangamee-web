@@ -56,8 +56,12 @@ export default function Home({ initData, sourceData }) {
     )
 
     useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        window.addEventListener('scroll', handleScroll)
+        window.addEventListener('touchmove', handleScroll)
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+            window.addEventListener('touchmove', handleScroll)
+        }
     }, []);
 
     const handleScroll = () => {
