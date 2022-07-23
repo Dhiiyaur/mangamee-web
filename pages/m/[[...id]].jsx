@@ -29,7 +29,7 @@ export default function MangaPage({ data, id }) {
 
     useEffect(() => {
         setIsBookmark(BookmarkManager.checkBookmark(id[1]))
-    }, [isBookmark])
+    }, [isBookmark, id])
 
     return (
         <Layout>

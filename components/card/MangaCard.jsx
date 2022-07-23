@@ -24,7 +24,7 @@ export default function MangaCard({ value, source }) {
 
     useEffect(() => {
         setIsBookmark(BookmarkManager.checkBookmark(value.Id))
-    }, [isBookmark])
+    }, [isBookmark, value.Id])
 
     return (
         <div className='flex flex-col space-y-2 cursor-pointer'
@@ -40,7 +40,7 @@ export default function MangaCard({ value, source }) {
                         <Bookmark isBookmark={isBookmark} />
                     </div>
                 </div>
-                <img src={value.Cover} className='rounded-xl h-56 sm:h-72 w-full' />
+                <img src={value.Cover} className='rounded-xl h-56 sm:h-72 w-full' alt=''/>
             </div>
             <div className='flex flex-col space-y-1'>
                 <p className='text-white text-xs capitalize line-clamp-2 font-semibold'>{value.Title}</p>

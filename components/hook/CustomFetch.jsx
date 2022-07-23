@@ -23,19 +23,17 @@ export default function CustomFetch(sourceId, page, initData) {
         setData(initData)
         setLoading(false)
         setInit(false)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
         if (!init) {
-            console.log('buka ini')
-
             getQuery()
         }
     }, [page])
 
     useEffect(() => {
         if (!init) {
-            console.log('masuk ini')
             setLoading(true)
             setData([])
             window.scrollTo(0, 0)

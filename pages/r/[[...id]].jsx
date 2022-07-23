@@ -63,7 +63,7 @@ export default function ReadPage({ meta, id }) {
 
     useEffect(() => {
         BookmarkManager.modifyBookmark(id[0], id[1], id[2])
-    }, [id[2]])
+    }, [id])
 
     useEffect(() => {
 
