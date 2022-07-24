@@ -3,7 +3,7 @@ import Layout from '@/components/layout/Layout';
 import SourceCard from '@/components/card/SourceCard';
 import MangaCardSkeleton from '@/components/loading/MangaCardSkeleton';
 
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 
 import MangameeApi from '@/lib/api';
 import CustomFetch from '@/components/hook/CustomFetch';
@@ -13,7 +13,6 @@ export default function Home({ initData, sourceData }) {
     const [page, setPage] = useState(1);
     const [source, setSource] = useState(1);
     const { loading, error, data } = CustomFetch(source, page, initData)
-
 
     const SourceSection = (
         <>
@@ -56,12 +55,6 @@ export default function Home({ initData, sourceData }) {
         </div>
     )
 
-    
-    // useEffect(() => {
-    //     window.addEventListener('scroll', handleScroll, {passive: true})
-    //     return () => window.removeEventListener('scroll', handleScroll)
-    // }, []);
-
     useEffect(() => {
         window.addEventListener('scroll', handleScroll, {
           passive: true
@@ -74,9 +67,6 @@ export default function Home({ initData, sourceData }) {
     
 
     const handleScroll = () => {
-        // if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) return;
-        // setPage((prev) => prev + 1)
-
         const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
         if (bottom) {
             setPage((prev) => prev + 1)

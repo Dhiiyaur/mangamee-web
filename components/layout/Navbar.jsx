@@ -14,10 +14,22 @@ export default function Navbar() {
         setWidth(window.innerWidth);
     }
 
+    useEffect(() => {
+        const getRoute = () => {
+            let route = router.asPath;
+            if (route !== '/') {
+                setCurrentRoute(route.split('/')[1])
+            } else {
+                setCurrentRoute("home")
+            }
+        }
+        getRoute()
+    }, [router])
+
     const mobileView = (
         <div className='w-full flex justify-center fixed inset-x-0 bottom-0 bg-[#1E1E1E] z-10'>
             <div className='flex w-[68%] justify-between p-3'>
-                <button className='text-white'
+                <button className={`${currentRoute == 'home' ? 'text-[#92EBFF]' : 'text-white'}`}
                     onClick={() => router.push('/')}
                 >
                     <IconContext.Provider value={{ size: 25 }}>
@@ -25,14 +37,14 @@ export default function Navbar() {
                     </IconContext.Provider>
 
                 </button>
-                <button className='text-white'
+                <button className={`${currentRoute == 'search' ? 'text-[#92EBFF]' : 'text-white'}`}
                     onClick={() => router.push('/search')}
                 >
                     <IconContext.Provider value={{ size: 25 }}>
                         <FiSearch />
                     </IconContext.Provider>
                 </button>
-                <button className='text-white'
+                <button className={`${currentRoute == 'bookmark' ? 'text-[#92EBFF]' : 'text-white'}`}
                     onClick={() => router.push('/bookmark')}>
                     <IconContext.Provider value={{ size: 25 }}>
                         <FiBookmark />
