@@ -3,12 +3,15 @@ import { FiSettings, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { IconContext } from "react-icons";
 import { useState } from 'react';
 import ChapterSelect from '../modal/ChapterSelect';
+import OptionSelect from '../modal/OptionSelect';
 
-export default function MediaBar({ dataChapter, currentIndexChapter, mangaId, sourceId }) {
+export default function MediaBar({ dataChapter, currentIndexChapter, mangaId, sourceId, meta, chapterId }) {
 
     let router = useRouter()
 
     const [openChapters, setOpenChapters] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false)
+
     const handleNextChapter = () => {
         if (currentIndexChapter > 0) {
             let nextChapter = dataChapter[currentIndexChapter - 1]['Id'];
@@ -28,6 +31,7 @@ export default function MediaBar({ dataChapter, currentIndexChapter, mangaId, so
             <div className='flex flex-col space-y-2 bottom-[45px] fixed inset-x-0 sm:bottom-0'>
                 <div className='flex justify-end px-5'>
                     <div className='w-[30px] h-[30px] rounded-full bg-[#D9D9D9] flex justify-center items-center'
+                    onClick={() => setMenuOpen(true)}
                     >
                         <IconContext.Provider value={{ size: 20 }}>
                             <FiSettings />
@@ -58,6 +62,15 @@ export default function MediaBar({ dataChapter, currentIndexChapter, mangaId, so
                     </div>
                 </div>
             </div>
+            {menuOpen && <OptionSelect
+                setMenuOpen={setMenuOpen}
+                menuOpen={menuOpen}
+                meta={meta}
+                mangaId={mangaId}
+                sourceId={sourceId}
+                chapterId={chapterId}
+            />}
+
             {openChapters && <ChapterSelect
                 dataChapter={dataChapter}
                 setOpenChapters={setOpenChapters}

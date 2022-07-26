@@ -39,7 +39,9 @@ export default function ReadPage({ meta, id }) {
                     currentIndexChapter={currentIndexChapter}
                     sourceId={id[0]}
                     mangaId={id[1]}
+                    chapterId={id[2]}
                     setDataImage={setDataImage}
+                    meta={meta}
                 />
             }
         </>

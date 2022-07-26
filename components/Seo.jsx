@@ -22,10 +22,10 @@ export const Seo = (props) => {
                     <>
                         <meta name="og:title" content="Mangamee" />
                         <meta name="og:description" content="" />
-                        <meta property="og:image" content="https://mangamee.vercel.app/icons/cover.png" />
+                        <meta property="og:image" content="https://mangamee.space/icons/cover.png" />
                         <meta name="twitter:title" content="Mangamee" />
                         <meta name="twitter:description" content="" />
-                        <meta property="twitter:image" content="https://mangamee.vercel.app/icons/cover.png" />
+                        <meta property="twitter:image" content="https://mangamee.space/icons/cover.png" />
                     </>
                 )
             }
