@@ -38,6 +38,7 @@ export default function BookmarkPage() {
                                     <MangaCard
                                         key={index}
                                         value={value}
+                                        bookmarkMode={true}
                                     />
                                 ))}
                             </div>

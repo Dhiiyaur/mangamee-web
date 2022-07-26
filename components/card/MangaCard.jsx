@@ -3,10 +3,11 @@ import { BookmarkManager } from '@/lib/store';
 import { useEffect, useState } from 'react';
 import Bookmark from './Bookmark';
 
-export default function MangaCard({ value, source }) {
+export default function MangaCard({ value, source, bookmarkMode = null }) {
 
     let router = useRouter();
     const [isBookmark, setIsBookmark] = useState(false)
+    const [bookmarkData, setBookmarkValue] = useState()
 
     const handleBookmark = (e) => {
         e.stopPropagation()
@@ -23,13 +24,23 @@ export default function MangaCard({ value, source }) {
     }
 
     useEffect(() => {
+        if(bookmarkMode && isBookmark) {
+            setBookmarkValue(BookmarkManager.getSingleBookmarkId(value.Id))
+        }
+    },[bookmarkMode, isBookmark])
+
+    useEffect(() => {
         setIsBookmark(BookmarkManager.checkBookmark(value.Id))
     }, [isBookmark, value.Id])
 
     return (
         <div className='flex flex-col space-y-2 cursor-pointer'
             onClick={() => {
-                router.push(`/m/${source ? source : value.Source}/${value.Id}`)
+                if (isBookmark && bookmarkMode && bookmarkData.Chapter) {
+                    router.push(`/r/${bookmarkData.Source}/${bookmarkData.Id}/${bookmarkData.Chapter}`)
+                } else {
+                    router.push(`/m/${source ? source : value.Source}/${value.Id}`)
+                }
             }}
         >
             <div className='relative h-56 sm:h-72'>
