@@ -11,12 +11,10 @@ import MangaCard from '@/components/card/MangaCard';
 export default function Search() {
 
     const [menuOpen, setMenuOpen] = useState(false);
-
     const [mangaData, setMangaData] = useState([]);
     const [mangaSource, setMangaSource] = useState([]);
     const [mangaSourceSelected, setMangaSourceSelected] = useState(1);
     const [searchTitle, setSearchTitle] = useState()
-
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') handleGetManga();
@@ -25,9 +23,10 @@ export default function Search() {
     const handleGetManga = async () => {
 
         let fetch = await MangameeApi.fetchSearch(mangaSourceSelected, searchTitle)
-        console.log(fetch)
         if (fetch.status == 200) {
+
             let res = await fetch.json()
+            console.log(res)
             setMangaData(res.data);
         }
     };
@@ -73,8 +72,8 @@ export default function Search() {
     const MangaSection = (
         <div className='flex justify-center sm:pt-10'>
             <div className='grid grid-cols-2 sm:grid-cols-5 pb-[68px] gap-5 px-5 pt-3 w-full sm:w-[80%]'>
-                {mangaData.map((value, index) => (
-                    <MangaCard key={index} value={value} />
+                {mangaData?.map((value, index) => (
+                    <MangaCard key={index} value={value} source={mangaSourceSelected}/>
                 ))}
             </div>
         </div>

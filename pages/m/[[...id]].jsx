@@ -8,7 +8,8 @@ import { BookmarkManager } from '@/lib/store';
 
 import { IconContext } from 'react-icons';
 import { FiShare2 } from 'react-icons/fi';
-
+import { Toaster } from 'react-hot-toast';
+import { LinkNotification } from '@/lib/notification';
 
 export default function MangaPage({ data, id }) {
 
@@ -27,12 +28,19 @@ export default function MangaPage({ data, id }) {
         }
     }
 
+    const handleShare = (e) => {
+        e.stopPropagation()
+        navigator.clipboard.writeText(`*${data.Title}* https://mangamee.space/m/${id[0]}/${id[1]}`)
+        LinkNotification()
+    }
+
     useEffect(() => {
         setIsBookmark(BookmarkManager.checkBookmark(id[1]))
     }, [isBookmark, id])
 
     return (
         <Layout>
+            <Toaster />
             <Seo cover={data.Cover} desc={data.Title} />
             <div>
                 <div className='flex justify-center'>
@@ -54,7 +62,9 @@ export default function MangaPage({ data, id }) {
                                 </p>
                             </div>
                             <div className='flex space-x-5 pt-2'>
-                                <div className='text-white'>
+                                <div className='text-white'
+                                onClick={(e) => handleShare(e)}
+                                >
                                     <IconContext.Provider value={{ size: 25 }}>
                                         <FiShare2 />
                                     </IconContext.Provider>
@@ -123,14 +133,14 @@ export async function getServerSideProps(context) {
 
     const { id } = context.params
     let fetch = await MangameeApi.fetchDetail(id[0], id[1])
-    let res = await fetch.json()
-    if (res.code !== 200) {
+    if (fetch.status !== 200) {
         return {
             redirect: {
                 destination: '/404',
             },
         }
     }
+    let res = await fetch.json()
     return {
         props: { data: res.data, id },
     }
