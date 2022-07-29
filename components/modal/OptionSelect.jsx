@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from 'react';
 import { LinkNotification } from '@/lib/notification';
 import { Toaster } from 'react-hot-toast';
 import { BookmarkManager } from '@/lib/store';
+import MangameeApi from '@/lib/api';
 
 export default function OptionSelect({
     setMenuOpen,
@@ -15,10 +16,17 @@ export default function OptionSelect({
     const dropdown = useRef(null);
     const [isBookmark, setIsBookmark] = useState(false);
 
-    const handleShare = (e) => {
+    const handleShare = async(e) => {
         e.stopPropagation()
-        navigator.clipboard.writeText(`*${meta.Title}* https://mangamee.space/r/${sourceId}/${mangaId}/${chapterId}`)
-        LinkNotification()
+
+        let url = `https://mangamee.space/r/${sourceId}/${mangaId}/${chapterId}`
+        let fetch = await MangameeApi.fetchGetShortUrl(url)
+        if (fetch.status == 200) {     
+            console.log("asdasd")
+            let res = await fetch.json()
+            navigator.clipboard.writeText(`*${meta.Title}* https://mangamee.space/link/${res.data}`)
+            LinkNotification()
+        }
     }
 
     const handleBookmark = (e) => {
@@ -56,15 +64,15 @@ export default function OptionSelect({
                         <span className='w-[20%] border-b-[6px] rounded-lg' />
                     </div>
                     <div className='sm:p-10 p-8 flex flex-col space-y-6'>
-                        <p className='text-white font-semibold'
+                        <p className='text-white font-semibold cursor-pointer'
                             onClick={(e) => handleShare(e)}
                         >
                             Share this manga
                         </p>
-                        <p className='text-white font-semibold'
+                        <p className='text-white font-semibold cursor-pointer'
                             onClick={(e) => handleBookmark(e)}
                         >
-                            {isBookmark ? `I dont like it, remove bookmark` : `Ok, I like it, Bookmark`}
+                            {isBookmark ? `I don't like it, remove bookmark` : `I like it, Bookmark`}
                         </p>
                     </div>
                 </div>
