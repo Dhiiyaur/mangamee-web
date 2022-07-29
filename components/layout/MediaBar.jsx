@@ -30,7 +30,7 @@ export default function MediaBar({ dataChapter, currentIndexChapter, mangaId, so
         <>
             <div className='flex flex-col space-y-2 bottom-[45px] fixed inset-x-0 sm:bottom-0'>
                 <div className='flex justify-end px-5'>
-                    <div className='w-[30px] h-[30px] rounded-full bg-[#D9D9D9] flex justify-center items-center'
+                    <div className='w-[30px] h-[30px] rounded-full bg-[#D9D9D9] flex justify-center items-center cursor-pointer'
                     onClick={() => setMenuOpen(true)}
                     >
                         <IconContext.Provider value={{ size: 20 }}>

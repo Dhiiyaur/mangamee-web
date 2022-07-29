@@ -28,10 +28,14 @@ export default function MangaPage({ data, id }) {
         }
     }
 
-    const handleShare = (e) => {
-        e.stopPropagation()
-        navigator.clipboard.writeText(`*${data.Title}* https://mangamee.space/m/${id[0]}/${id[1]}`)
-        LinkNotification()
+    const handleShare = async(e) => {
+        let url = `https://mangamee.space/m/${id[0]}/${id[1]}`
+        let fetch = await MangameeApi.fetchGetShortUrl(url)
+        if (fetch.status == 200) {     
+            let res = await fetch.json()
+            navigator.clipboard.writeText(`*${data.Title}* https://mangamee.space/link/${res.data}`)
+            LinkNotification()
+        }
     }
 
     useEffect(() => {
@@ -62,7 +66,7 @@ export default function MangaPage({ data, id }) {
                                 </p>
                             </div>
                             <div className='flex space-x-5 pt-2'>
-                                <div className='text-white'
+                                <div className='text-white cursor-pointer'
                                 onClick={(e) => handleShare(e)}
                                 >
                                     <IconContext.Provider value={{ size: 25 }}>
