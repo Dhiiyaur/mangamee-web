@@ -1,6 +1,5 @@
 import Layout from '@/components/layout/Layout'
 import { IconContext } from 'react-icons';
-import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import MangameeApi from '@/lib/api';
 import { FiMoreVertical, FiSearch } from "react-icons/fi";
@@ -15,6 +14,7 @@ export default function Search() {
     const [mangaSource, setMangaSource] = useState([]);
     const [mangaSourceSelected, setMangaSourceSelected] = useState(1);
     const [searchTitle, setSearchTitle] = useState()
+    const [notFound, setNotFound] = useState(false)
 
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') handleGetManga();
@@ -24,10 +24,13 @@ export default function Search() {
 
         let fetch = await MangameeApi.fetchSearch(mangaSourceSelected, searchTitle)
         if (fetch.status == 200) {
-
             let res = await fetch.json()
-            console.log(res)
-            setMangaData(res.data);
+            if (res.data !== null) {
+                setNotFound(false)
+                setMangaData(res.data);
+            } else {
+                setNotFound(true)
+            }
         }
     };
 
@@ -45,19 +48,32 @@ export default function Search() {
     const SearchSection = (
         <div className='w-full flex justify-center mt-10 sm:mt-20'>
             <div className='flex w-[90%] sm:w-[50%] justify-between'>
-                <div className='flex bg-[#2b2b2b] px-3 rounded-xl w-full'>
-                    <span className='text-white items-center flex'>
-                        <IconContext.Provider value={{ size: 20 }}>
-                            <FiSearch />
-                        </IconContext.Provider>
-                    </span>
-                    <input
-                        className='outline-none bg-[#2b2b2b] p-3 pl-3  text-white text-sm w-full'
+                <div className='flex w-full'>
+                    <input className='outline-none bg-[#2b2b2b] p-3  text-white text-sm w-full rounded-l-xl'
                         placeholder='Search'
                         onChange={(e) => setSearchTitle(e.target.value)}
                         onKeyDown={(e) => handleKeyDown(e)}
                     />
+                    <span className='text-white items-center flex py-3 px-5 bg-[#2b2b2b] rounded-r-xl border-l-[1px] cursor-pointer'
+                        onClick={handleGetManga}>
+                        <IconContext.Provider value={{ size: 20 }}>
+                            <FiSearch />
+                        </IconContext.Provider>
+                    </span>
                 </div>
+                {/* <div className='flex bg-[#2b2b2b] px-3 rounded-xl w-full'>
+                    <input
+                        className='outline-none bg-[#2b2b2b] p-3  text-white text-sm w-full'
+                        placeholder='Search'
+                        onChange={(e) => setSearchTitle(e.target.value)}
+                        onKeyDown={(e) => handleKeyDown(e)}
+                    />
+                    <span className='text-white items-center flex pr-3'>
+                        <IconContext.Provider value={{ size: 20 }}>
+                            <FiSearch />
+                        </IconContext.Provider>
+                    </span>
+                </div> */}
                 <div className='text-white w-[10%] flex justify-end text-center'
                     onClick={() => setMenuOpen(true)}
                 >
@@ -70,12 +86,21 @@ export default function Search() {
     )
 
     const MangaSection = (
-        <div className='flex justify-center sm:pt-10'>
-            <div className='grid grid-cols-2 sm:grid-cols-5 pb-[68px] gap-5 px-5 pt-3 w-full sm:w-[80%]'>
-                {mangaData?.map((value, index) => (
-                    <MangaCard key={index} value={value} source={mangaSourceSelected}/>
-                ))}
-            </div>
+        <div className='flex justify-center sm:pt-10 mt-4'>
+            {notFound ?
+                <div className='pt-12'>
+                    <p className='text-white text-lg font-light'>
+                        Opps, Not Found
+                    </p>
+                </div>
+
+                :
+                <div className='grid grid-cols-2 sm:grid-cols-5 pb-[68px] gap-5 px-5 pt-3 w-full sm:w-[80%]'>
+                    {mangaData?.map((value, index) => (
+                        <MangaCard key={index} value={value} source={mangaSourceSelected} />
+                    ))}
+                </div>
+            }
         </div>
     )
     return (
