@@ -26,7 +26,7 @@ export default function ReadPage({ meta, id }) {
                 {dataImage?.Images?.map((value, index) => (
                     <img
                         key={index}
-                        src={value.Imagea}
+                        src={value.Image}
                         alt=''
                         loading="lazy"
                     />
