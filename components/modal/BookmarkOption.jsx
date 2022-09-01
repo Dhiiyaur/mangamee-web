@@ -4,15 +4,17 @@ import { Toaster } from 'react-hot-toast';
 import MangameeApi from '@/lib/api';
 import { IconContext } from "react-icons";
 import { FiX } from "react-icons/fi";
-
+import { useRouter } from 'next/router';
 export default function BookmarkOption({
     setMenuOpen,
     menuOpen,
-    mangaData
+    mangaData,
 }) {
 
     const [bookmarkCode, setBookmarkCode] = useState("")
     const dropdown = useRef(null);
+
+    let router = useRouter()
 
     useEffect(() => {
         if (!menuOpen) return;
@@ -29,7 +31,12 @@ export default function BookmarkOption({
     const handleGetBookmark = async () => {
         let fetch = await MangameeApi.fetchGetBookmark(bookmarkCode)
         if (fetch.status == 200) {
-            console.log('a')
+            let res = await fetch.json()
+            let ids = new Set(mangaData.map(d => d.UID))
+            let merged = [...mangaData, ...res.data.filter(d => !ids.has(d.UID))]
+            localStorage.removeItem("bookmark")
+            localStorage.setItem("bookmark", JSON.stringify(merged))
+            router.reload()
         }
     }
 
@@ -63,26 +70,14 @@ export default function BookmarkOption({
                             </IconContext.Provider>
                         </div>
                     </div>
-                    {/* <div className='flex w-full justify-end py-3'>
-                        <div className='w-[60%] flex justify-between px-6'>
-                            <div className='flex items-center w-full'>
-                                <span className='w-[20%] border-b-[6px] rounded-lg' />
-                            </div>
-                            <div className='text-white cursor-pointer' onClick={() => setMenuOpen(false)}>
-                                <IconContext.Provider value={{ size: 28 }}>
-                                    <FiX />
-                                </IconContext.Provider>
-                            </div>
-                        </div>
-                    </div> */}
                     <div className='sm:p-10 p-8 flex flex-col space-y-6'>
-                        <p className='text-white font-semibold cursor-pointer'
-                            onClick={(e) => handleShare(e)}
-                        >
-                            Share my bookmark
-                        </p>
+                        <button onClick={(e) => handleShare(e)} className='w-[50%] flex justify-start'>
+                            <p className='text-white font-semibold'>
+                                Share my bookmark
+                            </p>
+                        </button>
                         <p className='border-b'></p>
-                        <p className='text-white font-semibold cursor-pointer'
+                        <p className='text-white font-semibold'
                         >
                             Import bookmark
                         </p>
@@ -91,7 +86,9 @@ export default function BookmarkOption({
                                 placeholder='input your secret code'
                                 onChange={(e) => setBookmarkCode(e.target.value)}
                             />
-                            <button className='p-2 bg-white border rounded-r-md'>
+                            <button className='p-2 bg-white border rounded-r-md'
+                                onClick={handleGetBookmark}
+                            >
                                 <p className='text-sm font-medium text-gray-600'>
                                     Import
                                 </p>

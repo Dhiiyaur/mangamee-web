@@ -23,9 +23,6 @@ export default function ChapterSelect({ setOpenChapters, openChapters, dataChapt
     return (
         <div ref={dropdown} className='z-[2] fixed w-full bottom-0 inset-x-0 h-[60%] sm:h-[80%] flex justify-center'>
              <div className='w-full rounded-t-xl bg-[#181818] sm:w-[50%]'>
-                {/* <div className='flex justify-center mt-5 sm:mt-8'>
-                    <span className='w-[20%] border-b-[6px] rounded-lg' />
-                </div> */}
                 <div className='flex w-full justify-between mt-5 sm:mt-8 px-5'>
                         <div className='text-[#181818] cursor-pointer'>
                             <IconContext.Provider value={{ size: 28 }}>

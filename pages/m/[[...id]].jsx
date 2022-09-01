@@ -50,7 +50,7 @@ export default function MangaPage({ data, id }) {
                 <div className='flex justify-center'>
                     <div className='sm:w-[45%] sm:pt-10 w-full h-[500px] sm:h-full'>
                         <img
-                            src={data.Cover}
+                            src={data.Covera}
                             alt=''
                             className='w-full h-[500px] sm:h-full object-cover'
                         />
