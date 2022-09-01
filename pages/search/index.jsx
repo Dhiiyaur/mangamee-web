@@ -54,7 +54,7 @@ export default function Search() {
                         onChange={(e) => setSearchTitle(e.target.value)}
                         onKeyDown={(e) => handleKeyDown(e)}
                     />
-                    <span className='text-white items-center flex py-3 px-5 bg-[#2b2b2b] rounded-r-xl border-l-[1px] cursor-pointer'
+                    <span className='text-white items-center flex py-3 px-5 bg-[#2b2b2b] rounded-r-xl cursor-pointer'
                         onClick={handleGetManga}>
                         <IconContext.Provider value={{ size: 20 }}>
                             <FiSearch />

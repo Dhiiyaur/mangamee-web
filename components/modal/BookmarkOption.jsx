@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import { BookmarkCodeNotification } from '@/lib/notification';
+import { SuccessNotification } from '@/lib/notification';
 import { Toaster } from 'react-hot-toast';
 import MangameeApi from '@/lib/api';
 import { IconContext } from "react-icons";
@@ -35,12 +35,11 @@ export default function BookmarkOption({
 
     const handleShare = async () => {
 
-        console.log(mangaData)
         let fetch = await MangameeApi.fetchGetBookmarkCode(mangaData)
         if (fetch.status == 200) {
             let res = await fetch.json()
             navigator.clipboard.writeText(`${res.data}`)
-            BookmarkCodeNotification()
+            SuccessNotification("Secret Code copied")
         }
     }
 

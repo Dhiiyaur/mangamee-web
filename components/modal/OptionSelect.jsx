@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react';
-import { LinkNotification } from '@/lib/notification';
+import { SuccessNotification } from '@/lib/notification';
 import { Toaster } from 'react-hot-toast';
 import { BookmarkManager } from '@/lib/store';
 import MangameeApi from '@/lib/api';
@@ -24,7 +24,7 @@ export default function OptionSelect({
         if (fetch.status == 200) {     
             let res = await fetch.json()
             navigator.clipboard.writeText(`*${meta.Title}* https://mangamee.space/link/${res.data}`)
-            LinkNotification()
+            SuccessNotification("Link copied")
         }
     }
 
