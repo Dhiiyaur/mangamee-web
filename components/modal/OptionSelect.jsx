@@ -22,7 +22,6 @@ export default function OptionSelect({
         let url = `https://mangamee.space/r/${sourceId}/${mangaId}/${chapterId}`
         let fetch = await MangameeApi.fetchGetShortUrl(url)
         if (fetch.status == 200) {     
-            console.log("asdasd")
             let res = await fetch.json()
             navigator.clipboard.writeText(`*${meta.Title}* https://mangamee.space/link/${res.data}`)
             LinkNotification()
