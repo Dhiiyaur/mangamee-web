@@ -86,7 +86,7 @@ export default function OptionSelect({
                             </p>
                         </button>
                         <button
-                            className='w-[45%] flex justify-start'
+                            className='w-full flex justify-start'
                             onClick={(e) => handleBookmark(e)}
                         >
                             <p className='text-white font-semibold'>
