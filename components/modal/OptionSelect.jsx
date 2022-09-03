@@ -20,7 +20,6 @@ export default function OptionSelect({
 
     const handleShare = async (e) => {
         e.stopPropagation()
-
         let url = `https://mangamee.space/r/${sourceId}/${mangaId}/${chapterId}`
         let fetch = await MangameeApi.fetchGetShortUrl(url)
         if (fetch.status == 200) {
