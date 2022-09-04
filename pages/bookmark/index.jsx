@@ -34,7 +34,7 @@ export default function BookmarkPage() {
 
             <div className='sticky top-0 sm:top-12 w-full flex z-10 bg-[#1E1E1E]'>
                 <div className='flex justify-center w-full'>
-                    <div className='flex justify-between w-full sm:w-[50%] p-5 mt-2'>
+                    <div className='flex justify-between sm:justify-end sm:space-x-10 w-full sm:w-[80%] p-5 mt-2'>
                         <p className='text-white text-lg font-medium'>
                             Bookmark
                         </p>

@@ -5,18 +5,23 @@ import { AiFillHeart } from 'react-icons/ai';
 export default function Bookmark({ isBookmark }) {
     if (isBookmark)
         return (
-            <span className='text-red-300 cursor-pointer'>
-                <IconContext.Provider value={{ size: 28 }}>
-                    <AiFillHeart />
-                </IconContext.Provider>
-            </span>
+            <div className='bg-gray-700 rounded-full p-1.5'>
+                <span className='text-red-400 cursor-pointer'>
+                    <IconContext.Provider value={{ size: 20 }}>
+                        <AiFillHeart />
+                    </IconContext.Provider>
+                </span>
+            </div>
+
         );
 
     return (
-        <span className='text-red-300 cursor-pointer'>
-            <IconContext.Provider value={{ size: 28 }}>
-                <FiHeart />
-            </IconContext.Provider>
-        </span>
+        <div className='bg-gray-700 rounded-full p-1.5'>
+            <span className='text-red-400 cursor-pointer'>
+                <IconContext.Provider value={{ size: 20 }}>
+                    <FiHeart />
+                </IconContext.Provider>
+            </span>
+        </div>
     );
 }

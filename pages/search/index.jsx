@@ -61,20 +61,7 @@ export default function Search() {
                         </IconContext.Provider>
                     </span>
                 </div>
-                {/* <div className='flex bg-[#2b2b2b] px-3 rounded-xl w-full'>
-                    <input
-                        className='outline-none bg-[#2b2b2b] p-3  text-white text-sm w-full'
-                        placeholder='Search'
-                        onChange={(e) => setSearchTitle(e.target.value)}
-                        onKeyDown={(e) => handleKeyDown(e)}
-                    />
-                    <span className='text-white items-center flex pr-3'>
-                        <IconContext.Provider value={{ size: 20 }}>
-                            <FiSearch />
-                        </IconContext.Provider>
-                    </span>
-                </div> */}
-                <div className='text-white w-[10%] flex justify-end text-center'
+                <div className='text-white w-[10%] flex justify-end text-center cursor-pointer'
                     onClick={() => setMenuOpen(true)}
                 >
                     <IconContext.Provider value={{ size: 50 }}>

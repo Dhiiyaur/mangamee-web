@@ -14,7 +14,7 @@ export default function MangaCard({ value, source, bookmarkMode = null }) {
         if (isBookmark) {
             BookmarkManager.removeBookmark(value.Id)
             setIsBookmark(false)
-            if (!source){
+            if (!source) {
                 router.reload()
             }
         } else {
@@ -24,10 +24,10 @@ export default function MangaCard({ value, source, bookmarkMode = null }) {
     }
 
     useEffect(() => {
-        if(bookmarkMode && isBookmark) {
+        if (bookmarkMode && isBookmark) {
             setBookmarkValue(BookmarkManager.getSingleBookmarkId(value.Id))
         }
-    },[bookmarkMode, isBookmark])
+    }, [bookmarkMode, isBookmark])
 
     useEffect(() => {
         setIsBookmark(BookmarkManager.checkBookmark(value.Id))
@@ -44,15 +44,16 @@ export default function MangaCard({ value, source, bookmarkMode = null }) {
             }}
         >
             <div className='relative h-56 sm:h-72'>
-                <div className='h-56 sm:h-72 absolute inset-0 bg-gradient-to-t from-black bg-opacity-40 rounded-xl'>
+                <div className='h-56 sm:h-72 absolute inset-0 rounded-xl'>
                     <div className='absolute right-0 bottom-2 px-5 py-3'
                         onClick={(e) => handleBookmark(e)}
                     >
                         <Bookmark isBookmark={isBookmark} />
                     </div>
                 </div>
-                <img src={value.Cover} className='rounded-xl h-56 sm:h-72 w-full' alt=''/>
+                <img src={value.Cover} className='rounded-xl h-56 sm:h-72 w-full' alt='' />
             </div>
+
             <div className='flex flex-col space-y-1'>
                 <p className='text-white text-xs capitalize line-clamp-2 font-semibold'>{value.Title}</p>
                 {value.LastChapter &&

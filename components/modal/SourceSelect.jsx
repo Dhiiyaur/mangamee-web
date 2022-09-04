@@ -42,7 +42,7 @@ export default function SourceSelect({
 
                     {mangaSource.map((value, index) => (
 
-                        <div className='flex justify-between' key={index}
+                        <div className='flex justify-between cursor-pointer' key={index}
                             onClick={() => handleSelectSource(value.id)}
                         >
                             <p className='text-white text-lg font-semibold'>{value.name}</p>

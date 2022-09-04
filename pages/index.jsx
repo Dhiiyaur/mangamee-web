@@ -16,18 +16,20 @@ export default function Home({ initData, sourceData }) {
 
     const SourceSection = (
         <>
-            <div className='sticky top-0 sm:top-12 w-full flex justify-center py-4 z-10 bg-[#1E1E1E]'>
-                <div className='flex justify-between w-[68%] sm:w-[25%]'>
-                    {sourceData.map((value, index) => (
-                        <SourceCard
-                            key={index}
-                            setPage={setPage}
-                            setSource={setSource}
-                            source={source}
-                            value={value}
+            <div className='sticky top-0 sm:top-12 w-full flex justify-center py-4 z-10 bg-[rgb(30,30,30)]'>
+                <div className='flex w-full sm:w-[78%] sm:justify-between justify-center'>
+                    <div className='flex justify-between w-[68%] sm:w-[30%]'>
+                        {sourceData.map((value, index) => (
+                            <SourceCard
+                                key={index}
+                                setPage={setPage}
+                                setSource={setSource}
+                                source={source}
+                                value={value}
 
-                        />
-                    ))}
+                            />
+                        ))}
+                    </div>
                 </div>
             </div>
         </>
@@ -56,14 +58,14 @@ export default function Home({ initData, sourceData }) {
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll, {
-          passive: true
+            passive: true
         });
-    
+
         return () => {
-          window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('scroll', handleScroll);
         };
-      }, []);
-    
+    }, []);
+
 
     const handleScroll = () => {
         const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
