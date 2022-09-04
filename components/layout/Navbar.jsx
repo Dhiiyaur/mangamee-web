@@ -56,20 +56,25 @@ export default function Navbar() {
     )
 
     const desktopView = (
-        <div className='fixed inset-x-0 top-0 z-10 p-3 bg-[#1E1E1E]'>
-            <div className='flex justify-center'>
-                <div className='flex w-[30%] justify-between'>
-                    <button className='text-white font-semibold'
+        <div className='fixed inset-x-0 top-0 z-10 p-3 bg-[#181818]'>
+            <div className='flex justify-between px-10'>
+                <div>
+                    <p className='text-white font-semibold'>
+                        Mangamee
+                    </p>
+                </div>
+                <div className='flex justify-between space-x-7'>
+                    <button className='text-white font-light'
                         onClick={() => router.push('/')}
                     >
                         Home
                     </button>
-                    <button className='text-white font-semibold'
+                    <button className='text-white font-light'
                         onClick={() => router.push('/search')}
                     >
                         Search
                     </button>
-                    <button className='text-white font-semibold'
+                    <button className='text-white font-light'
                         onClick={() => router.push('/bookmark')}
                     >
                         Bookmark
