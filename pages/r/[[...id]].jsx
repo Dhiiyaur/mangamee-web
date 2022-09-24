@@ -14,6 +14,7 @@ export default function ReadPage({ meta, id }) {
     const router = useRouter()
     const [currentIndexChapter, setCurrentIndexChapter] = useState()
     const [dataImage, setDataImage] = useState([])
+    const [chapterName, setChapterName] = useState()
     const [dataChapter, setDataChapter] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [lastScroll, setLastScroll] = useState()
@@ -23,10 +24,10 @@ export default function ReadPage({ meta, id }) {
         <>
         <div className='pb-[100px] sm:pb-0 flex justify-center'>
             <div className='sm:w-[50%] flex flex-col'>
-                {dataImage?.Images?.map((value, index) => (
+                {dataImage?.data_images?.images?.map((value, index) => (
                     <img
                         key={index}
-                        src={value.Image}
+                        src={value.image}
                         alt=''
                         loading="lazy"
                     />
@@ -37,6 +38,7 @@ export default function ReadPage({ meta, id }) {
                 <MediaBar
                     dataChapter={dataChapter}
                     currentIndexChapter={currentIndexChapter}
+                    chapterName={chapterName}
                     sourceId={id[0]}
                     mangaId={id[1]}
                     chapterId={id[2]}
@@ -56,6 +58,27 @@ export default function ReadPage({ meta, id }) {
         setLastScroll(window.scrollY)
     }, [lastScroll])
 
+    const fetchImage = async () => {
+        let fetch = await MangameeApi.fetchImage(id[0],id[1],id[2])
+        if (fetch.status !== 200) {
+            router.push("/404")
+        }
+        let res = await fetch.json()
+        setChapterName(res.data.data_images.chapter_name)
+        setDataImage(res.data)
+        BookmarkManager.modifyBookmark(id[0], id[1], id[2], res.data.data_images.chapter_name)
+    }
+
+    const fetchChapter = async () => {
+        let fetch = await MangameeApi.fetchChapter(id[0], id[1])
+        if (fetch.status !== 200) {
+            router.push("/404")
+        }
+        let res = await fetch.json()
+        setDataChapter(res.data.chapters)
+        setCurrentIndexChapter(FindIndex(res.data.chapters, id[2]))
+    }
+
     useEffect(() => {
         window.addEventListener("scroll", controlMediaBar)
         return () => {
@@ -63,34 +86,14 @@ export default function ReadPage({ meta, id }) {
         }
     }, [controlMediaBar])
 
-    useEffect(() => {
-        BookmarkManager.modifyBookmark(id[0], id[1], id[2])
-    }, [id])
+    // useEffect(() => {
+    //     BookmarkManager.modifyBookmark(id[0], id[1], id[2])
+    // }, [id])
 
     useEffect(() => {
 
         setIsLoading(true)
         setDataImage([])
-
-        const fetchImage = async () => {
-            let fetch = await MangameeApi.fetchImage(id[0],id[1],id[2])
-            if (fetch.status !== 200) {
-                router.push("/404")
-            }
-            let res = await fetch.json()
-            setDataImage(res.data)
-        }
-
-        const fetchChapter = async () => {
-            let fetch = await MangameeApi.fetchChapter(id[0], id[1])
-            if (fetch.status !== 200) {
-                router.push("/404")
-            }
-            let res = await fetch.json()
-            setDataChapter(res.data.Chapters)
-            setCurrentIndexChapter(FindIndex(res.data.Chapters, id[2]))
-        }
-
         fetchImage()
         fetchChapter()
         setIsLoading(false)
@@ -99,7 +102,7 @@ export default function ReadPage({ meta, id }) {
 
     return (
         <Layout>
-            <Seo cover={meta.Cover} desc={meta.Title} />
+            <Seo cover={meta.cover} desc={meta.title} />
             {isLoading ? <MangaReadSkeleton /> : <>{MangaSection}</>}
         </Layout>
     )

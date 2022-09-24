@@ -12,7 +12,7 @@ export default function LinkShortener({ data, meta }) {
     
     return (
         <>
-        <Seo cover={meta.Cover} desc={meta.Title} />
+        <Seo cover={meta.cover} desc={meta.title} />
         </>
     )
 }

@@ -12,34 +12,34 @@ export default function MangaCard({ value, source, bookmarkMode = null }) {
     const handleBookmark = (e) => {
         e.stopPropagation()
         if (isBookmark) {
-            BookmarkManager.removeBookmark(value.Id)
+            BookmarkManager.removeBookmark(value.id)
             setIsBookmark(false)
             if (!source) {
                 router.reload()
             }
         } else {
-            BookmarkManager.addBookmark(source, value.Id, value.Title, value.Cover)
+            BookmarkManager.addBookmark(source, value.id, value.title, value.cover)
             setIsBookmark(true)
         }
     }
 
     useEffect(() => {
         if (bookmarkMode && isBookmark) {
-            setBookmarkValue(BookmarkManager.getSingleBookmarkId(value.Id))
+            setBookmarkValue(BookmarkManager.getSingleBookmarkId(value.id))
         }
     }, [bookmarkMode, isBookmark])
 
     useEffect(() => {
-        setIsBookmark(BookmarkManager.checkBookmark(value.Id))
-    }, [isBookmark, value.Id])
+        setIsBookmark(BookmarkManager.checkBookmark(value.id))
+    }, [isBookmark, value.id])
 
     return (
         <div className='flex flex-col space-y-2 cursor-pointer'
             onClick={() => {
-                if (isBookmark && bookmarkMode && bookmarkData.Chapter) {
-                    router.push(`/r/${bookmarkData.Source}/${bookmarkData.Id}/${bookmarkData.Chapter}`)
+                if (isBookmark && bookmarkMode && bookmarkData.chapter) {
+                    router.push(`/r/${bookmarkData.source}/${bookmarkData.id}/${bookmarkData.chapter}`)
                 } else {
-                    router.push(`/m/${source ? source : value.Source}/${value.Id}`)
+                    router.push(`/m/${source ? source : value.source}/${value.id}`)
                 }
             }}
         >
@@ -51,19 +51,19 @@ export default function MangaCard({ value, source, bookmarkMode = null }) {
                         <Bookmark isBookmark={isBookmark} />
                     </div>
                 </div>
-                <img src={value.Cover} className='rounded-xl h-56 sm:h-72 w-full' alt='' />
+                <img src={value.cover} className='rounded-xl h-56 sm:h-72 w-full' alt='' />
             </div>
 
             <div className='flex flex-col space-y-1'>
-                <p className='text-white text-xs capitalize line-clamp-2 font-semibold'>{value.Title}</p>
-                {value.LastChapter &&
+                <p className='text-white text-xs capitalize line-clamp-2 font-semibold'>{value.title}</p>
+                {value.last_chapter &&
                     <p className='text-white opacity-80 text-xs font-thin sm:font-normal truncate'>
-                        Last chapter {value.LastChapter}
+                        Last chapter {value.last_chapter}
                     </p>
                 }
-                {value.Chapter &&
+                {value.chapter &&
                     <p className='text-white opacity-80 text-xs font-thin sm:font-normal truncate'>
-                        Last read : {value.Chapter}
+                        Last read : {value.chapter_name}
                     </p>
                 }
 

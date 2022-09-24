@@ -13,6 +13,7 @@ export default function OptionSelect({
     mangaId,
     sourceId,
     chapterId,
+    chapterName
 }) {
 
     const dropdown = useRef(null);
@@ -24,7 +25,7 @@ export default function OptionSelect({
         let fetch = await MangameeApi.fetchGetShortUrl(url)
         if (fetch.status == 200) {
             let res = await fetch.json()
-            navigator.clipboard.writeText(`*${meta.Title}* https://mangamee.space/link/${res.data}`)
+            navigator.clipboard.writeText(`*${meta.title}* https://mangamee.space/link/${res.data}`)
             SuccessNotification("Link copied")
         }
     }
@@ -35,7 +36,7 @@ export default function OptionSelect({
             BookmarkManager.removeBookmark(mangaId)
             setIsBookmark(false)
         } else {
-            BookmarkManager.addBookmark(sourceId, mangaId, meta.Title, meta.Cover, chapterId)
+            BookmarkManager.addBookmark(sourceId, mangaId, meta.title, meta.cover, chapterId, chapterName)
             setIsBookmark(true)
         }
     }
