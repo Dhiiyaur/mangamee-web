@@ -5,7 +5,7 @@ import { useState } from 'react';
 import ChapterSelect from '../modal/ChapterSelect';
 import OptionSelect from '../modal/OptionSelect';
 
-export default function MediaBar({ dataChapter, currentIndexChapter, mangaId, sourceId, meta, chapterId }) {
+export default function MediaBar({ dataChapter, chapterName, currentIndexChapter, mangaId, sourceId, meta, chapterId }) {
 
     let router = useRouter()
 
@@ -14,14 +14,14 @@ export default function MediaBar({ dataChapter, currentIndexChapter, mangaId, so
 
     const handleNextChapter = () => {
         if (currentIndexChapter > 0) {
-            let nextChapter = dataChapter[currentIndexChapter - 1]['Id'];
+            let nextChapter = dataChapter[currentIndexChapter - 1]['id'];
             router.push(`/r/${sourceId}/${mangaId}/${nextChapter}`);
         }
     };
 
     const handlePrevChapter = () => {
         if (currentIndexChapter < (dataChapter.length - 1)) {
-            let prevChapter = dataChapter[currentIndexChapter + 1]['Id'];
+            let prevChapter = dataChapter[currentIndexChapter + 1]['id'];
             router.push(`/r/${sourceId}/${mangaId}/${prevChapter}`);
         }
     };
@@ -50,7 +50,7 @@ export default function MediaBar({ dataChapter, currentIndexChapter, mangaId, so
                         <div className='text-sm font-medium cursor-pointer'
                             onClick={() => setOpenChapters(true)}
                         >
-                            Chapter {dataChapter[currentIndexChapter]?.Name}
+                            Chapter {dataChapter[currentIndexChapter]?.name}
                         </div>
                         <div className={`${currentIndexChapter == 0 ? "text-[#D9D9D9]" : "cursor-pointer"}`}
                             onClick={() => handleNextChapter()}
@@ -69,6 +69,7 @@ export default function MediaBar({ dataChapter, currentIndexChapter, mangaId, so
                 mangaId={mangaId}
                 sourceId={sourceId}
                 chapterId={chapterId}
+                chapterName={chapterName}
             />}
 
             {openChapters && <ChapterSelect

@@ -49,7 +49,7 @@ export default function ChapterSelect({ setOpenChapters, openChapters, dataChapt
                     <div className='flex flex-col space-y-3.5'>
                         {dataChapter?.filter((item) => {
                             if (
-                                item.Name.toLowerCase().includes(
+                                item.name.toLowerCase().includes(
                                     searchFilter.toLocaleLowerCase()
                                 )
                             ) {
@@ -57,16 +57,16 @@ export default function ChapterSelect({ setOpenChapters, openChapters, dataChapt
                             }
                         })?.map((value, index) => (
                             <div
-                                className={`${dataChapter[currentIndexChapter].Id == value.Id ? "bg-[#8CBE6D]" : "bg-[#2b2b2b]"} rounded-xl bg-[#2b2b2b] p-4 px-6 text-white flex justify-start cursor-pointer`}
+                                className={`${dataChapter[currentIndexChapter].id == value.id ? "bg-[#8CBE6D]" : "bg-[#2b2b2b]"} rounded-xl bg-[#2b2b2b] p-4 px-6 text-white flex justify-start cursor-pointer`}
                                 key={index}
                                 onClick={() => {
                                     router.push(
-                                        `/r/${sourceId}/${mangaId}/${value.Id}`
+                                        `/r/${sourceId}/${mangaId}/${value.id}`
                                     );
                                     setOpenChapters(false);
                                 }}
                             >
-                                Chapter {value.Name}
+                                Chapter {value.name}
                             </div>
                         ))}
                     </div>

@@ -46,7 +46,7 @@ export default function BookmarkPage() {
                     </div>
                 </div>
             </div>
-            <div className='flex justify-center sm:mt-16 mt-5'>
+            <div className='flex justify-center'>
                 {loading ? (
                     <div className='w-full sm:w-[80%]'>
                         <MangaCardSkeleton />
@@ -54,7 +54,7 @@ export default function BookmarkPage() {
                 ) :
                     <>
                         {noData ?
-                            <div className='flex flex-col items-center justify-center space-y-5 pt-10'>
+                            <div className='flex w-full min-h-screen flex-col items-center justify-center space-y-5'>
                                 <Image
                                     src="/icons/box.png"
                                     width={220}

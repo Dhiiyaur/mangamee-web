@@ -9,7 +9,7 @@ import { BookmarkManager } from '@/lib/store';
 import { IconContext } from 'react-icons';
 import { FiShare2 } from 'react-icons/fi';
 import { Toaster } from 'react-hot-toast';
-import { LinkNotification } from '@/lib/notification';
+import { SuccessNotification } from '@/lib/notification';
 
 export default function MangaPage({ data, id }) {
 
@@ -23,18 +23,19 @@ export default function MangaPage({ data, id }) {
             BookmarkManager.removeBookmark(id[1])
             setIsBookmark(false)
         } else {
-            BookmarkManager.addBookmark(id[0], id[1], data.Title, data.Cover)
+            BookmarkManager.addBookmark(id[0], id[1], data.title, data.cover)
             setIsBookmark(true)
         }
     }
 
-    const handleShare = async(e) => {
+    const handleShare = async (e) => {
+        e.stopPropagation()
         let url = `https://mangamee.space/m/${id[0]}/${id[1]}`
         let fetch = await MangameeApi.fetchGetShortUrl(url)
-        if (fetch.status == 200) {     
+        if (fetch.status == 200) {
             let res = await fetch.json()
-            navigator.clipboard.writeText(`*${data.Title}* https://mangamee.space/link/${res.data}`)
-            LinkNotification()
+            navigator.clipboard.writeText(`*${data.title}* https://mangamee.space/link/${res.data}`)
+            SuccessNotification("Link copied")
         }
     }
 
@@ -45,12 +46,12 @@ export default function MangaPage({ data, id }) {
     return (
         <Layout>
             <Toaster />
-            <Seo cover={data.Cover} desc={data.Title} />
+            <Seo cover={data.cover} desc={data.title} />
             <div>
                 <div className='flex justify-center'>
                     <div className='sm:w-[45%] sm:pt-10 w-full h-[500px] sm:h-full'>
                         <img
-                            src={data.Cover}
+                            src={data.cover}
                             alt=''
                             className='w-full h-[500px] sm:h-full object-cover'
                         />
@@ -62,12 +63,12 @@ export default function MangaPage({ data, id }) {
                         <div className='flex justify-between space-x-3'>
                             <div>
                                 <p className='text-white font-medium'>
-                                    {data.Title}
+                                    {data.title}
                                 </p>
                             </div>
                             <div className='flex space-x-5 pt-2'>
                                 <div className='text-white cursor-pointer'
-                                onClick={(e) => handleShare(e)}
+                                    onClick={(e) => handleShare(e)}
                                 >
                                     <IconContext.Provider value={{ size: 25 }}>
                                         <FiShare2 />
@@ -83,7 +84,7 @@ export default function MangaPage({ data, id }) {
                         </div>
                         <div className='flex flex-col space-y-2'>
                             <p className='text-white text-sm'>Summary</p>
-                            <p className='text-white text-sm font-light'>{data.Summary}</p>
+                            <p className='text-white text-sm font-light'>{data.summary}</p>
                         </div>
                     </div>
                 </div>
@@ -103,29 +104,29 @@ export default function MangaPage({ data, id }) {
                 </div>
 
                 <div className='flex justify-center'>
-                <div className='px-5 py-3 flex flex-col pb-[68px] sm:w-[55%] w-full'>
-                    <div className='flex flex-col space-y-3.5'>
-                        {data?.Chapters?.filter((item) => {
-                            if (
-                                item.Name.toLowerCase().includes(
-                                    searchFilter.toLocaleLowerCase()
-                                )
-                            ) {
-                                return item;
-                            }
-                        })?.map((value, index) => (
-                            <div
-                                className='rounded-xl bg-[#2b2b2b] p-4 px-6 text-white flex justify-start cursor-pointer'
-                                key={index}
-                                onClick={() =>
-                                    router.push(`/r/${id[0]}/${id[1]}/${value.Id}`)
+                    <div className='px-5 py-3 flex flex-col pb-[68px] sm:w-[55%] w-full'>
+                        <div className='flex flex-col space-y-3.5'>
+                            {data?.chapters?.filter((item) => {
+                                if (
+                                    item.name.toLowerCase().includes(
+                                        searchFilter.toLocaleLowerCase()
+                                    )
+                                ) {
+                                    return item;
                                 }
-                            >
-                                {value.Name}
-                            </div>
-                        ))}
+                            })?.map((value, index) => (
+                                <div
+                                    className='rounded-xl bg-[#2b2b2b] p-4 px-6 text-white flex justify-start cursor-pointer'
+                                    key={index}
+                                    onClick={() =>
+                                        router.push(`/r/${id[0]}/${id[1]}/${value.id}`)
+                                    }
+                                >
+                                    {value.name}
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                </div>
                 </div>
             </div>
         </Layout>
